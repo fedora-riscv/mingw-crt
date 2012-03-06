@@ -3,11 +3,11 @@
 %global snapshot_date 20120224
 
 %global mingw_build_win32 1
-#%%global mingw_build_win64 1
+%global mingw_build_win64 1
 
 Name:           mingw-crt
 Version:        2.0.999
-Release:        0.4.trunk.%{snapshot_date}%{?dist}
+Release:        0.5.trunk.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -26,12 +26,10 @@ BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-headers
 BuildRequires:  mingw32-gcc
 
-%if 0%{?mingw_build_win64}
 BuildRequires:  mingw64-filesystem >= 95
 BuildRequires:  mingw64-binutils
 BuildRequires:  mingw64-headers
 BuildRequires:  mingw64-gcc
-%endif
 
 
 %description
@@ -47,7 +45,6 @@ Requires:       mingw32-filesystem >= 95
 %description -n mingw32-crt
 MinGW Windows cross-compiler runtime, base libraries for the win32 target.
 
-%if 0%{?mingw_build_win64}
 %package -n mingw64-crt
 Summary:        MinGW Windows cross-compiler runtime for the win64 target
 Obsoletes:      mingw64-runtime < 1.0-0.3.20100914%{?dist}
@@ -56,7 +53,6 @@ Requires:       mingw64-filesystem >= 95
 
 %description -n mingw64-crt
 MinGW Windows cross-compiler runtime, base libraries for the win64 target.
-%endif
 
 
 %prep
@@ -93,29 +89,26 @@ popd
 # The above installs in /usr/$target/sys-root/mingw/$target/lib
 # which is the wrong location.  Move it to %%{mingw64_libdir}.
 mv $RPM_BUILD_ROOT%{mingw32_prefix}/%{mingw32_target}/lib $RPM_BUILD_ROOT%{mingw32_libdir}
-%if 0%{?mingw_build_win64}
 mv $RPM_BUILD_ROOT%{mingw64_prefix}/%{mingw64_target}/lib $RPM_BUILD_ROOT%{mingw64_libdir}
-%endif
 
 # Dunno what to do with these files
 rm -rf $RPM_BUILD_ROOT%{mingw32_prefix}/%{mingw32_target}/libsrc
-%if 0%{?mingw_build_win64}
 rm -rf $RPM_BUILD_ROOT%{mingw64_prefix}/%{mingw64_target}/libsrc
-%endif
 
 
 %files -n mingw32-crt
 %doc COPYING DISCLAIMER DISCLAIMER.PD
 %{mingw32_libdir}/*
 
-%if 0%{?mingw_build_win64}
 %files -n mingw64-crt
 %doc COPYING DISCLAIMER DISCLAIMER.PD
 %{mingw64_libdir}/*
-%endif
 
 
 %changelog
+* Tue Mar  6 2012 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.5.trunk.20120224
+- Enable support for the win64 target
+
 * Sat Feb 25 2012 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.4.trunk.20120224
 - Update to mingw-w64 trunk 20120224 snapshot
 - Made the win64 pieces optional for now (pending approval of the mingw-gcc/mingw-binutils package reviews)
