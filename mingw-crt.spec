@@ -1,10 +1,10 @@
 %{?mingw_package_header}
 
-%global snapshot_date 20120705
+%global snapshot_date 20120709
 
 Name:           mingw-crt
 Version:        2.0.999
-Release:        0.7.trunk.%{snapshot_date}%{?dist}
+Release:        0.8.trunk.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -15,6 +15,10 @@ Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-src_%{snaps
 %else
 Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}.tar.gz
 %endif
+
+# Upstream commit r5197 and r5199, Remove hardcoded host entry in the sysroot location
+Patch0:         mingw-w64-r5197.patch
+Patch1:         mingw-w64-r5199.patch
 
 BuildArch:      noarch
 
@@ -63,16 +67,13 @@ tar -xf %{S:0}
 %setup -q -n mingw-w64-v%{version}
 %endif
 
-# By default the configure script looks for $sysroot/$host/include
-# while we use $sysroot/mingw/include for this
-sed -i "s,\$host/include,mingw/include,g" mingw-w64-crt/configure*
-sed -i "s,\$(host)/include,mingw/include,g" mingw-w64-crt/Makefile.*
+%patch0 -p1
+%patch1 -p1
 
 
 %build
 pushd mingw-w64-crt
-    MINGW32_CONFIGURE_ARGS="--host=%{mingw32_target} --prefix=%{mingw32_prefix} --with-sysroot=%{mingw32_sysroot}"
-    MINGW64_CONFIGURE_ARGS="--host=%{mingw64_target} --prefix=%{mingw64_prefix} --with-sysroot=%{mingw64_sysroot} --disable-lib32"
+    MINGW64_CONFIGURE_ARGS="--disable-lib32"
     %mingw_configure
     %mingw_make %{?_smp_mflags}
 popd
@@ -83,14 +84,9 @@ pushd mingw-w64-crt
     %mingw_make_install DESTDIR=$RPM_BUILD_ROOT
 popd
 
-# The above installs in /usr/$target/sys-root/mingw/$target/lib
-# which is the wrong location.  Move it to %%{mingw64_libdir}.
-mv $RPM_BUILD_ROOT%{mingw32_prefix}/%{mingw32_target}/lib $RPM_BUILD_ROOT%{mingw32_libdir}
-mv $RPM_BUILD_ROOT%{mingw64_prefix}/%{mingw64_target}/lib $RPM_BUILD_ROOT%{mingw64_libdir}
-
 # Dunno what to do with these files
-rm -rf $RPM_BUILD_ROOT%{mingw32_prefix}/%{mingw32_target}/libsrc
-rm -rf $RPM_BUILD_ROOT%{mingw64_prefix}/%{mingw64_target}/libsrc
+rm -rf $RPM_BUILD_ROOT%{mingw32_prefix}/libsrc
+rm -rf $RPM_BUILD_ROOT%{mingw64_prefix}/libsrc
 
 
 %files -n mingw32-crt
@@ -103,6 +99,11 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_prefix}/%{mingw64_target}/libsrc
 
 
 %changelog
+* Mon Jul  9 2012 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.8.trunk.20120709
+- Update to 20120709 snapshot (contains full Cygwin support)
+- Eliminated various manual kludges as upstream now installs their
+  files to the correct folders by default
+
 * Thu Jul  5 2012 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.7.trunk.20120705
 - Update to 20120705 snapshot (contains various Cygwin changes)
 
