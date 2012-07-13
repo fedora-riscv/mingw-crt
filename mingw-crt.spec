@@ -1,10 +1,10 @@
 %{?mingw_package_header}
 
-%global snapshot_date 20120709
+%global snapshot_date 20120713
 
 Name:           mingw-crt
 Version:        2.0.999
-Release:        0.8.trunk.%{snapshot_date}%{?dist}
+Release:        0.9.trunk.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -15,10 +15,6 @@ Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-src_%{snaps
 %else
 Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}.tar.gz
 %endif
-
-# Upstream commit r5197 and r5199, Remove hardcoded host entry in the sysroot location
-Patch0:         mingw-w64-r5197.patch
-Patch1:         mingw-w64-r5199.patch
 
 BuildArch:      noarch
 
@@ -67,9 +63,6 @@ tar -xf %{S:0}
 %setup -q -n mingw-w64-v%{version}
 %endif
 
-%patch0 -p1
-%patch1 -p1
-
 
 %build
 pushd mingw-w64-crt
@@ -99,6 +92,10 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_prefix}/libsrc
 
 
 %changelog
+* Fri Jul 13 2012 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.9.trunk.20120713
+- Update to 20120703 snapshot
+- Fixes testsuite failure in the qt_qmake_test_static_mingw32 testcase
+
 * Mon Jul  9 2012 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.8.trunk.20120709
 - Update to 20120709 snapshot (contains full Cygwin support)
 - Eliminated various manual kludges as upstream now installs their
