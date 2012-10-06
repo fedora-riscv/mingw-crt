@@ -1,10 +1,10 @@
 %{?mingw_package_header}
 
-%global snapshot_date 20120718
+%global snapshot_date 20121006
 
 Name:           mingw-crt
 Version:        2.0.999
-Release:        0.10.trunk.%{snapshot_date}%{?dist}
+Release:        0.11.trunk.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -78,8 +78,8 @@ pushd mingw-w64-crt
 popd
 
 # Dunno what to do with these files
-rm -rf $RPM_BUILD_ROOT%{mingw32_prefix}/libsrc
-rm -rf $RPM_BUILD_ROOT%{mingw64_prefix}/libsrc
+rm -rf $RPM_BUILD_ROOT%{mingw32_includedir}/*.c
+rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %files -n mingw32-crt
@@ -92,6 +92,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_prefix}/libsrc
 
 
 %changelog
+* Sat Oct  6 2012 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.11.trunk.20121006
+- Update to 20121006 snapshot
+
 * Wed Jul 18 2012 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.10.trunk.20120718
 - Update to 20120718 snapshot
 
