@@ -4,7 +4,7 @@
 
 Name:           mingw-crt
 Version:        2.0.999
-Release:        0.11.trunk.%{snapshot_date}%{?dist}
+Release:        0.12.trunk.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -27,6 +27,7 @@ BuildRequires:  mingw64-filesystem >= 95
 BuildRequires:  mingw64-binutils
 BuildRequires:  mingw64-headers
 BuildRequires:  mingw64-gcc
+Provides: bundled(libiberty)
 
 
 %description
@@ -92,6 +93,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Mon Oct 15 2012 Jon Ciesla <limburgher@gmail.com> - 2.0.999-0.12.trunk.20121006
+- Provides: bundled(libiberty)
+
 * Sat Oct  6 2012 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.11.trunk.20121006
 - Update to 20121006 snapshot
 
