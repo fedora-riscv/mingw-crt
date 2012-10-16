@@ -1,17 +1,20 @@
 %{?mingw_package_header}
 
-%global snapshot_date 20121006
+%global snapshot_date 20121016
+%global branch trunk
 
 Name:           mingw-crt
 Version:        2.0.999
-Release:        0.12.trunk.%{snapshot_date}%{?dist}
+Release:        0.13.%{branch}.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
 Group:          Development/Libraries
 URL:            http://mingw-w64.sourceforge.net/
 %if 0%{?snapshot_date}
-Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-src_%{snapshot_date}.tar.bz2
+# To regerenate a snapshot:
+# wget http://mingw-w64.svn.sourceforge.net/viewvc/mingw-w64/%{branch}/?view=tar -O mingw-w64-%{branch}-snapshot-$(date '+%Y%m%d').tar.gz
+Source0:        mingw-w64-%{branch}-snapshot-%{snapshot_date}.tar.gz
 %else
 Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}.tar.gz
 %endif
@@ -27,7 +30,6 @@ BuildRequires:  mingw64-filesystem >= 95
 BuildRequires:  mingw64-binutils
 BuildRequires:  mingw64-headers
 BuildRequires:  mingw64-gcc
-Provides: bundled(libiberty)
 
 
 %description
@@ -59,7 +61,7 @@ rm -rf mingw-w64-v%{version}
 mkdir mingw-w64-v%{version}
 cd mingw-w64-v%{version}
 tar -xf %{S:0}
-%setup -q -D -T -n mingw-w64-v%{version}/mingw
+%setup -q -D -T -n mingw-w64-v%{version}/%{branch}
 %else
 %setup -q -n mingw-w64-v%{version}
 %endif
@@ -93,6 +95,11 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Tue Oct 16 2012 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.13.trunk.20121016
+- Update to 20121016 snapshot
+- Use a different source tarball which doesn't contain unrelevant code (like libiberty)
+- Removed Provides: bundled(libiberty)
+
 * Mon Oct 15 2012 Jon Ciesla <limburgher@gmail.com> - 2.0.999-0.12.trunk.20121006
 - Provides: bundled(libiberty)
 
