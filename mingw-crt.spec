@@ -1,11 +1,11 @@
 %{?mingw_package_header}
 
-%global snapshot_date 20121016
+%global snapshot_date 20121109
 %global branch trunk
 
 Name:           mingw-crt
 Version:        2.0.999
-Release:        0.13.%{branch}.%{snapshot_date}%{?dist}
+Release:        0.14.%{branch}.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -95,6 +95,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Fri Nov  9 2012 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.14.trunk.20121109
+- Update to 20121109 snapshot
+
 * Tue Oct 16 2012 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.13.trunk.20121016
 - Update to 20121016 snapshot
 - Use a different source tarball which doesn't contain unrelevant code (like libiberty)
