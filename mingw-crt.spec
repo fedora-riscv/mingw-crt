@@ -1,11 +1,11 @@
 %{?mingw_package_header}
 
-%global snapshot_date 20130216
+%global snapshot_date 20130403
 %global branch trunk
 
 Name:           mingw-crt
 Version:        2.0.999
-Release:        0.18.%{branch}.%{snapshot_date}%{?dist}
+Release:        0.19.%{branch}.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -19,6 +19,9 @@ Source0:        mingw-w64-%{branch}-snapshot-%{snapshot_date}.tar.gz
 Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}.tar.gz
 %endif
 
+# Add Windows XP wrapper for vsprintf_s (RHBZ #917323)
+Patch0:         mingw-w64-crt-add-vsprintf_s-wrapper.patch
+
 BuildArch:      noarch
 
 BuildRequires:  mingw32-filesystem >= 95
@@ -30,6 +33,8 @@ BuildRequires:  mingw64-filesystem >= 95
 BuildRequires:  mingw64-binutils
 BuildRequires:  mingw64-headers
 BuildRequires:  mingw64-gcc
+
+BuildRequires:  autoconf automake
 
 
 %description
@@ -66,6 +71,11 @@ tar -xf %{S:0}
 %setup -q -n mingw-w64-v%{version}
 %endif
 
+%patch0 -p0
+pushd mingw-w64-crt
+autoreconf -i --force
+popd
+
 
 %build
 pushd mingw-w64-crt
@@ -95,6 +105,10 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Wed Apr  3 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.19.trunk.20130403
+- Update to 20130403 snapshot
+- Added Windows XP compatibility wrapper for the vsprintf_s function (RHBZ #917323)
+
 * Sat Feb 16 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.18.trunk.20130216
 - Update to 20130216 snapshot
 - Includes improved import libraries (for setupapi, cfgmgr32 and others)
