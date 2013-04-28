@@ -1,11 +1,11 @@
 %{?mingw_package_header}
 
-%global snapshot_date 20130425
+%global snapshot_date 20130428
 %global branch trunk
 
 Name:           mingw-crt
 Version:        2.0.999
-Release:        0.20.%{branch}.%{snapshot_date}%{?dist}
+Release:        0.21.%{branch}.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -105,6 +105,10 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Sun Apr 28 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.21.trunk.20130428
+- Update to 20130428 snapshot
+- Fixes build regression in wxWidgets and tcl regarding the timezone function
+
 * Thu Apr 25 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.20.trunk.20130425
 - Update to 20130425 snapshot
 
