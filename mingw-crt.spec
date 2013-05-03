@@ -5,7 +5,7 @@
 
 Name:           mingw-crt
 Version:        2.0.999
-Release:        0.16.%{branch}.%{snapshot_date}%{?dist}
+Release:        0.17.%{branch}.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -31,11 +31,17 @@ BuildRequires:  mingw64-binutils
 BuildRequires:  mingw64-headers
 BuildRequires:  mingw64-gcc
 
+# Needed for patch3
+BuildRequires:  autoconf automake libtool
+
 # Backport of SVN commits 5592, 5593 and 5594
 # This improves support for various import libraries like setupapi and others
 Patch0:         mingw-w64-r5592.patch
 Patch1:         mingw-w64-r5593.patch
 Patch2:         mingw-w64-r5594.patch
+
+# Add Windows XP wrapper for vsprintf_s (RHBZ #917323)
+Patch3:         mingw-w64-crt-add-vsprintf_s-wrapper.patch
 
 
 %description
@@ -76,6 +82,11 @@ tar -xf %{S:0}
 %patch1 -p1
 %patch2 -p1
 
+%patch3 -p0
+pushd mingw-w64-crt
+autoreconf -i --force
+popd
+
 
 %build
 pushd mingw-w64-crt
@@ -105,6 +116,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Sat May  4 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.17.trunk.20121110
+- Added Windows XP compatibility wrapper for the vsprintf_s function (RHBZ #917323)
+
 * Mon Feb 18 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.16.trunk.20121110
 - Backported upstream commits 5592, 5593 and 5594
 - Improves support for import libraries like setupapi and others
