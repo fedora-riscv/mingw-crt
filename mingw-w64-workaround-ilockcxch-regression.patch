@@ -1,0 +1,20 @@
+--- mingw-w64-crt/Makefile.am.orig	2013-06-13 17:27:36.000000000 +0200
++++ mingw-w64-crt/Makefile.am	2013-06-14 17:46:50.774319773 +0200
+@@ -154,7 +154,7 @@
+   secapi/wmemcpy_s.c
+ 
+ 
+-src_libmingwex=\
++src_libmingwex=intrincs/ilockcxch.c\
+   crt/dllentry.c        crt/dllmain.c \
+   \
+   complex/cabs.c     complex/cabsf.c    complex/cabsl.c   complex/cacos.c    complex/cacosf.c   complex/cacosl.c \
+@@ -258,7 +258,7 @@
+   intrincs/__stosw.c        intrincs/_rotl64.c        intrincs/_rotr64.c         intrincs/bitscanfwd.c    intrincs/bitscanrev.c     \
+   intrincs/bittest.c        intrincs/bittestc.c       intrincs/bittestci.c       intrincs/bittestr.c      intrincs/bittestri.c      \
+   intrincs/bittests.c       intrincs/bittestsi.c      intrincs/cpuid.c           intrincs/currentfiber.c  intrincs/currentteb.c     \
+-  intrincs/fiberdata.c      intrincs/ilockadd.c       intrincs/ilockand.c        intrincs/ilockand64.c    intrincs/ilockcxch.c      \
++  intrincs/fiberdata.c      intrincs/ilockadd.c       intrincs/ilockand.c        intrincs/ilockand64.c    \
+   intrincs/ilockcxch16.c    intrincs/ilockcxch64.c    intrincs/ilockcxchptr.c    intrincs/ilockdec.c      intrincs/ilockdec16.c     \
+   intrincs/ilockdec64.c     intrincs/ilockexch.c      intrincs/ilockexch64.c     intrincs/ilockexchadd.c  intrincs/ilockexchadd64.c \
+   intrincs/ilockexchptr.c   intrincs/ilockinc.c       intrincs/ilockinc16.c      intrincs/ilockinc64.c    intrincs/ilockor.c        \

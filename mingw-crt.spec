@@ -1,11 +1,12 @@
 %{?mingw_package_header}
 
-%global snapshot_date 20130530
+%global snapshot_date 20130614
+%global snapshot_rev 5894
 %global branch trunk
 
 Name:           mingw-crt
 Version:        2.0.999
-Release:        0.25.%{branch}.%{snapshot_date}%{?dist}
+Release:        0.26.%{branch}.r%{snapshot_rev}.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -13,8 +14,8 @@ Group:          Development/Libraries
 URL:            http://mingw-w64.sourceforge.net/
 %if 0%{?snapshot_date}
 # To regerenate a snapshot:
-# wget http://mingw-w64.svn.sourceforge.net/viewvc/mingw-w64/%{branch}/?view=tar -O mingw-w64-%{branch}-snapshot-$(date '+%Y%m%d').tar.gz
-Source0:        mingw-w64-%{branch}-snapshot-%{snapshot_date}.tar.gz
+# wget http://sourceforge.net/code-snapshots/svn/m/mi/mingw-w64/code/mingw-w64-code-%{snapshot_rev}-%{branch}.zip -O mingw-w64-%{branch}-r%{snapshot_rev}-snapshot-$(date '+%Y%m%d').tar.gz 
+Source0:        mingw-w64-%{branch}-r%{snapshot_rev}-snapshot-%{snapshot_date}.zip
 %else
 Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}.tar.gz
 %endif
@@ -30,6 +31,20 @@ BuildRequires:  mingw64-filesystem >= 95
 BuildRequires:  mingw64-binutils
 BuildRequires:  mingw64-headers
 BuildRequires:  mingw64-gcc
+
+# Required for patch0
+BuildRequires:  autoconf automake libtool
+
+# Revert r5713 for now as it causes shared libraries
+# without an explicit exported symbols list (.def file) to
+# automatically export the symbol InterlockedCompareExchange.
+# This symbol is part of the Win32 API so it shouldn't
+# be exported again in individual shared libraries.
+# This issue only happens for the i686-w64-mingw32 target.
+# We reported this issue upstream on 2013-05-23 but we're
+# still waiting on a proper solution. To workaround it
+# we do a partial revert the commit in question for now
+Patch0:         mingw-w64-workaround-ilockcxch-regression.patch
 
 
 %description
@@ -60,11 +75,14 @@ MinGW Windows cross-compiler runtime, base libraries for the win64 target.
 rm -rf mingw-w64-v%{version}
 mkdir mingw-w64-v%{version}
 cd mingw-w64-v%{version}
-tar -xf %{S:0}
-%setup -q -D -T -n mingw-w64-v%{version}/%{branch}
+unzip %{S:0}
+%setup -q -D -T -n mingw-w64-v%{version}/mingw-w64-code-%{snapshot_rev}-%{branch}
 %else
 %setup -q -n mingw-w64-v%{version}
 %endif
+
+%patch0 -p0 -b .ilockcxch_regression
+autoreconf -i --force
 
 
 %build
@@ -95,6 +113,14 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Fri Jun 14 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.26.trunk.r5894.20130614
+- Update to r5894 (20130614 snapshot)
+- Updated instructions to regenerate snapshots
+  (SourceForge has changed their SVN infrastructure)
+- Workaround regression introduced by r5713 where
+  the symbol InterlockedCompareExchange could get
+  exported in shared libraries by accident
+
 * Thu May 30 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.25.trunk.20130530
 - Update to 20130530 snapshot
 
