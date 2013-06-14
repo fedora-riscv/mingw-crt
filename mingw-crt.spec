@@ -1,12 +1,12 @@
 %{?mingw_package_header}
 
 %global snapshot_date 20130614
-%global snapshot_rev 5894
+%global snapshot_rev 5904
 %global branch trunk
 
 Name:           mingw-crt
 Version:        2.0.999
-Release:        0.26.%{branch}.r%{snapshot_rev}.%{snapshot_date}%{?dist}
+Release:        0.27.%{branch}.r%{snapshot_rev}.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -14,7 +14,10 @@ Group:          Development/Libraries
 URL:            http://mingw-w64.sourceforge.net/
 %if 0%{?snapshot_date}
 # To regerenate a snapshot:
-# wget http://sourceforge.net/code-snapshots/svn/m/mi/mingw-w64/code/mingw-w64-code-%{snapshot_rev}-%{branch}.zip -O mingw-w64-%{branch}-r%{snapshot_rev}-snapshot-$(date '+%Y%m%d').tar.gz 
+# Use your regular webbrowser to open http://sourceforge.net/p/mingw-w64/code/5900/tarball?path=/trunk
+# This triggers the SourceForge instructure to generate a snapshot
+# After that you can pull in the archive with:
+# wget http://sourceforge.net/code-snapshots/svn/m/mi/mingw-w64/code/mingw-w64-code-%{snapshot_rev}-%{branch}.zip -O mingw-w64-%{branch}-r%{snapshot_rev}-snapshot-$(date '+%Y%m%d').zip
 Source0:        mingw-w64-%{branch}-r%{snapshot_rev}-snapshot-%{snapshot_date}.zip
 %else
 Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}.tar.gz
@@ -45,6 +48,10 @@ BuildRequires:  autoconf automake libtool
 # still waiting on a proper solution. To workaround it
 # we do a partial revert the commit in question for now
 Patch0:         mingw-w64-workaround-ilockcxch-regression.patch
+
+# Commit r5898 also introduced a similar regression
+# for the win64 target so also revert that one for now
+Patch1:         mingw-w64-commit-r5898.patch
 
 
 %description
@@ -82,6 +89,7 @@ unzip %{S:0}
 %endif
 
 %patch0 -p0 -b .ilockcxch_regression
+%patch1 -p1 -b .r5898 -R
 autoreconf -i --force
 
 
@@ -113,6 +121,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Fri Jun 14 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.27.trunk.r5904.20130614
+- Update to r5904 (fixes various regressions)
+
 * Fri Jun 14 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.26.trunk.r5894.20130614
 - Update to r5894 (20130614 snapshot)
 - Updated instructions to regenerate snapshots
