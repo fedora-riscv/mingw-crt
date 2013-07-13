@@ -1,12 +1,12 @@
 %{?mingw_package_header}
 
-%global snapshot_date 20130628
-%global snapshot_rev 5915
+%global snapshot_date 20130713
+%global snapshot_rev 5949
 %global branch trunk
 
 Name:           mingw-crt
 Version:        2.0.999
-Release:        0.28.%{branch}.r%{snapshot_rev}.%{snapshot_date}%{?dist}
+Release:        0.29.%{branch}.r%{snapshot_rev}.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -34,20 +34,6 @@ BuildRequires:  mingw64-filesystem >= 95
 BuildRequires:  mingw64-binutils
 BuildRequires:  mingw64-headers
 BuildRequires:  mingw64-gcc
-
-# Required for patch0
-BuildRequires:  autoconf automake libtool
-
-# Revert r5713 for now as it causes shared libraries
-# without an explicit exported symbols list (.def file) to
-# automatically export the symbol InterlockedCompareExchange.
-# This symbol is part of the Win32 API so it shouldn't
-# be exported again in individual shared libraries.
-# This issue only happens for the i686-w64-mingw32 target.
-# We reported this issue upstream on 2013-05-23 but we're
-# still waiting on a proper solution. To workaround it
-# we do a partial revert the commit in question for now
-Patch0:         mingw-w64-workaround-ilockcxch-regression.patch
 
 
 %description
@@ -84,9 +70,6 @@ unzip %{S:0}
 %setup -q -n mingw-w64-v%{version}
 %endif
 
-%patch0 -p0 -b .ilockcxch_regression
-autoreconf -i --force
-
 
 %build
 pushd mingw-w64-crt
@@ -116,6 +99,10 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Sat Jul 13 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.29.trunk.r5949.20130713
+- Update to r5949 (20130713 snapshot)
+- Dropped InterlockedCompareExchange workaround, issue is resolved upstream (with r5949)
+
 * Fri Jun 28 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.28.trunk.r5915.20130628
 - Update to r5915 (20130628 snapshot)
 
