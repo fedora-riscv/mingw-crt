@@ -1,12 +1,12 @@
 %{?mingw_package_header}
 
-%global snapshot_date 20130713
-%global snapshot_rev 5949
+%global snapshot_date 20130721
+%global snapshot_rev 5969
 %global branch trunk
 
 Name:           mingw-crt
 Version:        2.0.999
-Release:        0.29.%{branch}.r%{snapshot_rev}.%{snapshot_date}%{?dist}
+Release:        0.30.%{branch}.r%{snapshot_rev}.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -99,6 +99,10 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Sun Jul 21 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.30.trunk.r5969.20130721
+- Update to r5969 (20130721 snapshot)
+- Fixes strnlen issue on Windows XP
+
 * Sat Jul 13 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.29.trunk.r5949.20130713
 - Update to r5949 (20130713 snapshot)
 - Dropped InterlockedCompareExchange workaround, issue is resolved upstream (with r5949)
