@@ -1,11 +1,12 @@
 %{?mingw_package_header}
 
-%global snapshot_date 20121110
+%global snapshot_date 20130721
+%global snapshot_rev 5969
 %global branch trunk
 
 Name:           mingw-crt
 Version:        2.0.999
-Release:        0.17.%{branch}.%{snapshot_date}%{?dist}
+Release:        0.30.%{branch}.r%{snapshot_rev}.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -13,8 +14,11 @@ Group:          Development/Libraries
 URL:            http://mingw-w64.sourceforge.net/
 %if 0%{?snapshot_date}
 # To regerenate a snapshot:
-# wget http://mingw-w64.svn.sourceforge.net/viewvc/mingw-w64/%{branch}/?view=tar -O mingw-w64-%{branch}-snapshot-$(date '+%Y%m%d').tar.gz
-Source0:        mingw-w64-%{branch}-snapshot-%{snapshot_date}.tar.gz
+# Use your regular webbrowser to open http://sourceforge.net/p/mingw-w64/code/%{snapshot_rev}/tarball?path=/trunk
+# This triggers the SourceForge instructure to generate a snapshot
+# After that you can pull in the archive with:
+# wget http://sourceforge.net/code-snapshots/svn/m/mi/mingw-w64/code/mingw-w64-code-%{snapshot_rev}-%{branch}.zip
+Source0:        mingw-w64-code-%{snapshot_rev}-%{branch}.zip
 %else
 Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}.tar.gz
 %endif
@@ -72,8 +76,8 @@ MinGW Windows cross-compiler runtime, base libraries for the win64 target.
 rm -rf mingw-w64-v%{version}
 mkdir mingw-w64-v%{version}
 cd mingw-w64-v%{version}
-tar -xf %{S:0}
-%setup -q -D -T -n mingw-w64-v%{version}/%{branch}
+unzip %{S:0}
+%setup -q -D -T -n mingw-w64-v%{version}/mingw-w64-code-%{snapshot_rev}-%{branch}
 %else
 %setup -q -n mingw-w64-v%{version}
 %endif
@@ -116,12 +120,61 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
-* Sat May  4 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.17.trunk.20121110
+* Sun Jul 21 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.30.trunk.r5969.20130721
+- Update to r5969 (20130721 snapshot)
+- Fixes strnlen issue on Windows XP
+
+* Sat Jul 13 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.29.trunk.r5949.20130713
+- Update to r5949 (20130713 snapshot)
+- Dropped InterlockedCompareExchange workaround, issue is resolved upstream (with r5949)
+
+* Fri Jun 28 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.28.trunk.r5915.20130628
+- Update to r5915 (20130628 snapshot)
+
+* Fri Jun 14 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.27.trunk.r5904.20130614
+- Update to r5904 (fixes various regressions)
+
+* Fri Jun 14 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.26.trunk.r5894.20130614
+- Update to r5894 (20130614 snapshot)
+- Updated instructions to regenerate snapshots
+  (SourceForge has changed their SVN infrastructure)
+- Workaround regression introduced by r5713 where
+  the symbol InterlockedCompareExchange could get
+  exported in shared libraries by accident
+
+* Thu May 30 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.25.trunk.20130530
+- Update to 20130530 snapshot
+
+* Mon May 20 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.24.trunk.20130520
+- Update to 20130520 snapshot
+
+* Thu May  9 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.23.trunk.20130509
+- Regenerated 20130509 snapshot
+- Dropped upstreamed vsprintf_s patch
+
+* Thu May  9 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.22.trunk.20130509
+- Update to 20130509 snapshot
+
+* Sun Apr 28 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.21.trunk.20130428
+- Update to 20130428 snapshot
+- Fixes build regression in wxWidgets and tcl regarding the timezone function
+
+* Thu Apr 25 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.20.trunk.20130425
+- Update to 20130425 snapshot
+
+* Wed Apr  3 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.19.trunk.20130403
+- Update to 20130403 snapshot
 - Added Windows XP compatibility wrapper for the vsprintf_s function (RHBZ #917323)
 
-* Mon Feb 18 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.16.trunk.20121110
-- Backported upstream commits 5592, 5593 and 5594
-- Improves support for import libraries like setupapi and others
+* Sat Feb 16 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.18.trunk.20130216
+- Update to 20130216 snapshot
+- Includes improved import libraries (for setupapi, cfgmgr32 and others)
+
+* Sun Jan 27 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.17.trunk.20130127
+- Update to 20130127 snapshot
+
+* Sat Jan  5 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.16.trunk.20130105
+- Update to 20130105 snapshot
 
 * Sat Nov 10 2012 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.15.trunk.20121110
 - Update to 20121110 snapshot
