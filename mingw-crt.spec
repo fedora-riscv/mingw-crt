@@ -35,18 +35,6 @@ BuildRequires:  mingw64-binutils
 BuildRequires:  mingw64-headers
 BuildRequires:  mingw64-gcc
 
-# Needed for patch3
-BuildRequires:  autoconf automake libtool
-
-# Backport of SVN commits 5592, 5593 and 5594
-# This improves support for various import libraries like setupapi and others
-Patch0:         mingw-w64-r5592.patch
-Patch1:         mingw-w64-r5593.patch
-Patch2:         mingw-w64-r5594.patch
-
-# Add Windows XP wrapper for vsprintf_s (RHBZ #917323)
-Patch3:         mingw-w64-crt-add-vsprintf_s-wrapper.patch
-
 
 %description
 MinGW Windows cross-compiler runtime, base libraries.
@@ -81,15 +69,6 @@ unzip %{S:0}
 %else
 %setup -q -n mingw-w64-v%{version}
 %endif
-
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-
-%patch3 -p0
-pushd mingw-w64-crt
-autoreconf -i --force
-popd
 
 
 %build
