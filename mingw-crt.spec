@@ -6,7 +6,7 @@
 
 Name:           mingw-crt
 Version:        2.0.999
-Release:        0.30.%{branch}.r%{snapshot_rev}.%{snapshot_date}%{?dist}
+Release:        0.31.%{branch}.r%{snapshot_rev}.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -22,6 +22,10 @@ Source0:        mingw-w64-code-%{snapshot_rev}-%{branch}.zip
 %else
 Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}.tar.gz
 %endif
+
+# Make sure that libraries compiled for the i686 target don't always depend on libgcc_s_sjlj-1.dll
+# Upstream commit r6044
+Patch0:         mingw-w64-r6044-prevent-dep-on-libgcc-sljl-dll.patch
 
 BuildArch:      noarch
 
@@ -70,6 +74,8 @@ unzip %{S:0}
 %setup -q -n mingw-w64-v%{version}
 %endif
 
+%patch0 -p1 -b .libgcc
+
 
 %build
 pushd mingw-w64-crt
@@ -99,6 +105,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Sat Aug 10 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.31.trunk.r5969.20130721
+- Prevent dependency on libgcc_s_sjlj-1.dll when it isn't needed (upstream commit r6044)
+
 * Sun Jul 21 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.30.trunk.r5969.20130721
 - Update to r5969 (20130721 snapshot)
 - Fixes strnlen issue on Windows XP
