@@ -1,12 +1,12 @@
 %{?mingw_package_header}
 
-%global snapshot_date 20130827
-%global snapshot_rev 6155
+%global snapshot_date 20130907
+%global snapshot_rev 6233
 %global branch trunk
 
 Name:           mingw-crt
 Version:        2.0.999
-Release:        0.34.%{branch}.r%{snapshot_rev}.%{snapshot_date}%{?dist}
+Release:        0.35.%{branch}.r%{snapshot_rev}.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -17,8 +17,8 @@ URL:            http://mingw-w64.sourceforge.net/
 # Use your regular webbrowser to open http://sourceforge.net/p/mingw-w64/code/%{snapshot_rev}/tarball?path=/trunk
 # This triggers the SourceForge instructure to generate a snapshot
 # After that you can pull in the archive with:
-# wget http://sourceforge.net/code-snapshots/svn/m/mi/mingw-w64/code/mingw-w64-code-%{snapshot_rev}-%{branch}.zip
-Source0:        mingw-w64-code-%{snapshot_rev}-%{branch}.zip
+# spectool -g mingw-crt.spec
+Source0:        http://sourceforge.net/code-snapshots/svn/m/mi/mingw-w64/code/mingw-w64-code-%{snapshot_rev}-%{branch}.zip
 %else
 Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}.tar.gz
 %endif
@@ -99,6 +99,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Sat Sep  7 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.35.trunk.r6233.20130907
+- Update to r6233 (20130907 snapshot)
+
 * Tue Aug 27 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.34.trunk.r6155.20130827
 - Update to r6155 (20130827 snapshot)
 
