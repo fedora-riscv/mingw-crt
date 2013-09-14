@@ -1,12 +1,12 @@
 %{?mingw_package_header}
 
-%global snapshot_date 20130911
-%global snapshot_rev 6277
+%global snapshot_date 20130914
+%global snapshot_rev 6284
 %global branch trunk
 
 Name:           mingw-crt
 Version:        2.0.999
-Release:        0.37.%{branch}.r%{snapshot_rev}.%{snapshot_date}%{?dist}
+Release:        0.38.%{branch}.r%{snapshot_rev}.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -99,6 +99,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Sat Sep 14 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.38.trunk.r6284.20130914
+- Update to r6284 (20130914 snapshot)
+
 * Wed Sep 11 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.37.trunk.r6277.20130911
 - Update to r6277 (20130911 snapshot)
 - Fixes undefined reference to `IID_ICustomDestinationList'
