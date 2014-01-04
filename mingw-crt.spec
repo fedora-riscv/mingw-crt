@@ -1,12 +1,12 @@
 %{?mingw_package_header}
 
-%global snapshot_date 20131129
-%global snapshot_rev 6388
+%global snapshot_date 20140104
+%global snapshot_rev 6432
 %global branch trunk
 
 Name:           mingw-crt
 Version:        3.0.999
-Release:        0.2.%{branch}.r%{snapshot_rev}.%{snapshot_date}%{?dist}
+Release:        0.3.%{branch}.r%{snapshot_rev}.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -99,6 +99,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Sat Jan  4 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.0.999-0.3.trunk.r6432.20140104
+- Update to r6432 (20140104 snapshot)
+
 * Fri Nov 29 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.0.999-0.2.trunk.r6388.20131129
 - Update to r6388 (20131129 snapshot)
 
