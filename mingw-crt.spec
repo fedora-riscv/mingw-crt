@@ -5,8 +5,8 @@
 %global branch trunk
 
 Name:           mingw-crt
-Version:        3.0.999
-Release:        0.3.%{branch}.r%{snapshot_rev}.%{snapshot_date}%{?dist}
+Version:        3.1.999
+Release:        0.1.%{branch}.r%{snapshot_rev}.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -99,6 +99,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Thu Jan  9 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.1.trunk.r6432.20140104
+- Bump version to keep working upgrade path
+
 * Sat Jan  4 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.0.999-0.3.trunk.r6432.20140104
 - Update to r6432 (20140104 snapshot)
 
