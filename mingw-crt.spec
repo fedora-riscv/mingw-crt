@@ -5,7 +5,7 @@
 #%%global branch trunk
 
 Name:           mingw-crt
-Version:        3.0.0
+Version:        3.1.0
 Release:        1%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
@@ -99,6 +99,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Thu Jan  9 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.0-1
+- Update to 3.1.0
+
 * Fri Sep 20 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.0.0-1
 - Update to 3.0.0
 
