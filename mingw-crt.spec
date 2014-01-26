@@ -1,12 +1,12 @@
 %{?mingw_package_header}
 
-%global snapshot_date 20140124
-%global snapshot_rev 6460
+%global snapshot_date 20140126
+%global snapshot_rev 6469
 %global branch trunk
 
 Name:           mingw-crt
 Version:        3.1.999
-Release:        0.2.%{branch}.r%{snapshot_rev}.%{snapshot_date}%{?dist}
+Release:        0.3.%{branch}.r%{snapshot_rev}.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -99,6 +99,10 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Sun Jan 26 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.3.trunk.r6469.20140126
+- Update to r6469 (20140126 snapshot)
+- Fixes missing sprintf_s issue on Windows XP/Server 2003 (RHBZ #1054481)
+
 * Fri Jan 24 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.2.trunk.r6460.20140124
 - Update to r6460 (20140124 snapshot)
 - Fixes missing vsprintf_s issue on Windows XP/Server 2003 (RHBZ #1054481)
