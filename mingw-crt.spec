@@ -6,7 +6,7 @@
 
 Name:           mingw-crt
 Version:        3.1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -34,6 +34,13 @@ BuildRequires:  mingw64-filesystem >= 95
 BuildRequires:  mingw64-binutils
 BuildRequires:  mingw64-headers
 BuildRequires:  mingw64-gcc
+
+# Fix Windows XP compatibility issues mentioned at
+# https://bugzilla.redhat.com/show_bug.cgi?id=1054481
+# Patches are already upstreamed
+Patch0:         0001-Add-_gmtime32-and-_localtime32-to-lib64-msvcrt.def.patch
+Patch1:         0001-Add-secapi-wrapper-for-sprintf_s.patch
+Patch2:         0002-Remove-rand_s-and-vsprintf_s-from-msvcrt.def.in.patch
 
 
 %description
@@ -70,6 +77,10 @@ unzip %{S:0}
 %setup -q -n mingw-w64-v%{version}
 %endif
 
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
+
 
 %build
 pushd mingw-w64-crt
@@ -99,6 +110,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Tue Feb  4 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.0-2
+- Backported various Windows XP compatibility patches (RHBZ #1054481)
+
 * Thu Jan  9 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.0-1
 - Update to 3.1.0
 
