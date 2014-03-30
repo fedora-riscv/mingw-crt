@@ -1,12 +1,12 @@
 %{?mingw_package_header}
 
-%global snapshot_date 20140224
-%global snapshot_rev 6497
+%global snapshot_date 20140330
+%global snapshot_rev 6559
 %global branch trunk
 
 Name:           mingw-crt
 Version:        3.1.999
-Release:        0.7.%{branch}.r%{snapshot_rev}.%{snapshot_date}%{?dist}
+Release:        0.8.%{branch}.r%{snapshot_rev}.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -99,6 +99,11 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Sun Mar 30 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.8.trunk.r6559.20140330
+- Update to r6559 (20140330 snapshot)
+- Fixes Windows XP compatibility issue in mingw-glib-networking
+  and mingw-sigar (missing strerror_s symbol)
+
 * Mon Feb 24 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.7.trunk.r6497.20140224
 - Update to r6497 (20140224 snapshot)
 
