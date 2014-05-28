@@ -1,12 +1,13 @@
 %{?mingw_package_header}
 
-%global snapshot_date 20130721
-%global snapshot_rev 5969
+%global snapshot_date 20140524
+%global snapshot_rev 502c72047e68fecf07f628628b75296863ff5b35
+%global snapshot_rev_short %(echo %snapshot_rev | cut -c1-6)
 %global branch trunk
 
 Name:           mingw-crt
-Version:        2.0.999
-Release:        0.32.%{branch}.r%{snapshot_rev}.%{snapshot_date}%{?dist}
+Version:        3.1.999
+Release:        0.9.%{branch}.git%{snapshot_rev_short}.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -14,22 +15,14 @@ Group:          Development/Libraries
 URL:            http://mingw-w64.sourceforge.net/
 %if 0%{?snapshot_date}
 # To regerenate a snapshot:
-# Use your regular webbrowser to open http://sourceforge.net/p/mingw-w64/code/%{snapshot_rev}/tarball?path=/trunk
+# Use your regular webbrowser to open https://sourceforge.net/p/mingw-w64/mingw-w64/ci/%{snapshot_rev}/tarball
 # This triggers the SourceForge instructure to generate a snapshot
 # After that you can pull in the archive with:
-# wget http://sourceforge.net/code-snapshots/svn/m/mi/mingw-w64/code/mingw-w64-code-%{snapshot_rev}-%{branch}.zip
-Source0:        mingw-w64-code-%{snapshot_rev}-%{branch}.zip
+# spectool -g mingw-headers.spec
+Source0:        http://sourceforge.net/code-snapshots/git/m/mi/mingw-w64/mingw-w64.git/mingw-w64-mingw-w64-%{snapshot_rev}.zip
 %else
-Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}.tar.gz
+Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}.tar.bz2
 %endif
-
-# Make sure that libraries compiled for the i686 target don't always depend on libgcc_s_sjlj-1.dll
-# Upstream commit r6044
-Patch0:         mingw-w64-r6044-prevent-dep-on-libgcc-sljl-dll.patch
-
-# Fix Windows 2000 compatibility issue regarding missing ___lc_codepage_func symbol
-# Upstream commit r6134
-Patch1:         0001-Fix-lc_codepage_func-isssue.patch
 
 BuildArch:      noarch
 
@@ -73,13 +66,10 @@ rm -rf mingw-w64-v%{version}
 mkdir mingw-w64-v%{version}
 cd mingw-w64-v%{version}
 unzip %{S:0}
-%setup -q -D -T -n mingw-w64-v%{version}/mingw-w64-code-%{snapshot_rev}-%{branch}
+%setup -q -D -T -n mingw-w64-v%{version}/mingw-w64-mingw-w64-%{snapshot_rev}
 %else
 %setup -q -n mingw-w64-v%{version}
 %endif
-
-%patch0 -p1 -b .libgcc
-%patch1 -p1 -b .win2k
 
 
 %build
@@ -110,11 +100,77 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
-* Sun Aug 25 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.32.trunk.r5969.20130721
-- Fix Windows 2000 compatibility issue regarding missing ___lc_codepage_func symbol
+* Sat May 24 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.9.trunk.git502c72.20140524
+- Update to 20140524 snapshot (git rev 502c72)
+- Upstream has switched from SVN to Git
 
-* Sat Aug 10 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.31.trunk.r5969.20130721
-- Prevent dependency on libgcc_s_sjlj-1.dll when it isn't needed (upstream commit r6044)
+* Sun Mar 30 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.8.trunk.r6559.20140330
+- Update to r6559 (20140330 snapshot)
+- Fixes Windows XP compatibility issue in mingw-glib-networking
+  and mingw-sigar (missing strerror_s symbol)
+
+* Mon Feb 24 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.7.trunk.r6497.20140224
+- Update to r6497 (20140224 snapshot)
+
+* Tue Feb 11 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.6.trunk.r6479.20140211
+- Update to r6479 (20140211 snapshot)
+
+* Mon Feb 10 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.5.trunk.r6477.20140210
+- Update to r6477 (20140210 snapshot)
+
+* Sat Feb  8 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.4.trunk.r6475.20140208
+- Update to r6475 (20140208 snapshot)
+
+* Sun Jan 26 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.3.trunk.r6469.20140126
+- Update to r6469 (20140126 snapshot)
+- Fixes missing sprintf_s issue on Windows XP/Server 2003 (RHBZ #1054481)
+
+* Fri Jan 24 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.2.trunk.r6460.20140124
+- Update to r6460 (20140124 snapshot)
+- Fixes missing vsprintf_s issue on Windows XP/Server 2003 (RHBZ #1054481)
+
+* Thu Jan  9 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.1.trunk.r6432.20140104
+- Bump version to keep working upgrade path
+
+* Sat Jan  4 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.0.999-0.3.trunk.r6432.20140104
+- Update to r6432 (20140104 snapshot)
+
+* Fri Nov 29 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.0.999-0.2.trunk.r6388.20131129
+- Update to r6388 (20131129 snapshot)
+
+* Wed Nov 20 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.0.999-0.1.trunk.r6379.20131120
+- Update to r6379 (20131120 snapshot)
+
+* Fri Sep 20 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.0.0-1
+- Update to 3.0.0
+
+* Sat Sep 14 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.38.trunk.r6284.20130914
+- Update to r6284 (20130914 snapshot)
+
+* Wed Sep 11 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.37.trunk.r6277.20130911
+- Update to r6277 (20130911 snapshot)
+- Fixes undefined reference to `IID_ICustomDestinationList'
+- Fixes undefined reference to `IID_IFileOpenDialog'
+- Fixes undefined reference to `IID_IFileSaveDialog'
+
+* Mon Sep  9 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.36.trunk.r6258.20130909
+- Update to r6258 (20130909 snapshot)
+
+* Sat Sep  7 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.35.trunk.r6233.20130907
+- Update to r6233 (20130907 snapshot)
+
+* Tue Aug 27 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.34.trunk.r6155.20130827
+- Update to r6155 (20130827 snapshot)
+
+* Mon Aug 19 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.33.trunk.r6106.20130819
+- Update to r6106 (20130819 snapshot)
+
+* Sat Aug 10 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.32.trunk.r6069.20130810
+- Update to r6069 (20130810 snapshot)
+- Resolves unnecesary dependency on libgcc_s_sjlj-1.dll for the i686 target
+
+* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.0.999-0.31.trunk.r5969.20130721
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
 * Sun Jul 21 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 2.0.999-0.30.trunk.r5969.20130721
 - Update to r5969 (20130721 snapshot)
