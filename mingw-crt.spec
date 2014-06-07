@@ -7,7 +7,7 @@
 
 Name:           mingw-crt
 Version:        3.1.999
-Release:        0.10.%{branch}.git%{snapshot_rev_short}.%{snapshot_date}%{?dist}
+Release:        0.11.%{branch}.git%{snapshot_rev_short}.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -100,6 +100,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.1.999-0.11.trunk.gitb8e816.20140530
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Fri May 30 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.10.trunk.gitb8e8160.20140530
 - Update to 20140530 snapshot (git rev b8e8160)
 
