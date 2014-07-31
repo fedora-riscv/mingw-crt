@@ -24,6 +24,9 @@ Source0:        http://sourceforge.net/code-snapshots/git/m/mi/mingw-w64/mingw-w
 Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}.tar.bz2
 %endif
 
+# Upstream commit ec1ff7764fbea4eefbb290c9ba888af3386ede8e is incomplete
+Patch0:         add_memmove_s.patch
+
 BuildArch:      noarch
 
 BuildRequires:  mingw32-filesystem >= 95
@@ -70,6 +73,8 @@ unzip %{S:0}
 %else
 %setup -q -n mingw-w64-v%{version}
 %endif
+
+%patch0 -p1
 
 
 %build
