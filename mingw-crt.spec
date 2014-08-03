@@ -1,13 +1,13 @@
 %{?mingw_package_header}
 
-%global snapshot_date 20140530
-%global snapshot_rev b8e8160da0648fc0406b028a2bff0938d9b9175e
+%global snapshot_date 20140730
+%global snapshot_rev ec1ff7764fbea4eefbb290c9ba888af3386ede8e
 %global snapshot_rev_short %(echo %snapshot_rev | cut -c1-6)
 %global branch trunk
 
 Name:           mingw-crt
 Version:        3.1.999
-Release:        0.10.%{branch}.git%{snapshot_rev_short}.%{snapshot_date}%{?dist}
+Release:        0.12.%{branch}.git%{snapshot_rev_short}.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -23,6 +23,9 @@ Source0:        http://sourceforge.net/code-snapshots/git/m/mi/mingw-w64/mingw-w
 %else
 Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}.tar.bz2
 %endif
+
+# Upstream commit ec1ff7764fbea4eefbb290c9ba888af3386ede8e is incomplete
+Patch0:         add_memmove_s.patch
 
 BuildArch:      noarch
 
@@ -71,6 +74,8 @@ unzip %{S:0}
 %setup -q -n mingw-w64-v%{version}
 %endif
 
+%patch0 -p1
+
 
 %build
 pushd mingw-w64-crt
@@ -100,6 +105,14 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Wed Jul 30 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.12.trunk.gitec1ff7.20140730
+- Update to 20140730 snapshot (git rev ec1ff7)
+- Fixes invalid value of the global variable in6addr_loopback (RHBZ #1124368)
+- Fixes missing memmove_s symbol on Windows XP/Server 2003
+
+* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.1.999-0.11.trunk.gitb8e816.20140530
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Fri May 30 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.10.trunk.gitb8e8160.20140530
 - Update to 20140530 snapshot (git rev b8e8160)
 
