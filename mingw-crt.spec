@@ -5,8 +5,8 @@
 #%%global branch trunk
 
 Name:           mingw-crt
-Version:        3.1.0
-Release:        3%{?dist}
+Version:        3.2.0
+Release:        1%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -39,13 +39,7 @@ BuildRequires:  mingw64-gcc
 # https://bugzilla.redhat.com/show_bug.cgi?id=1054481
 # Patches are already upstreamed
 Patch0:         0001-Add-_gmtime32-and-_localtime32-to-lib64-msvcrt.def.patch
-Patch1:         0001-Add-secapi-wrapper-for-sprintf_s.patch
 Patch2:         0002-Remove-rand_s-and-vsprintf_s-from-msvcrt.def.in.patch
-
-# Fix Windows XP compatibility issue in mingw-glib-networking
-# and mingw-sigar (missing strerror_s symbol)
-# Already upstreamed
-Patch3:         0001-Add-secapi-wrapper-for-strerror_s.patch
 
 
 %description
@@ -83,9 +77,7 @@ unzip %{S:0}
 %endif
 
 %patch0 -p1
-%patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 
 %build
@@ -116,6 +108,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Mon Sep  1 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.2.0-1
+- Update to 3.2.0
+
 * Sun Mar 30 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.0-3
 - Fix Windows XP compatibility in mingw-glib-networking and mingw-sigar
   (missing strerror_s symbol)
