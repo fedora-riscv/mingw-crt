@@ -1,13 +1,13 @@
 %{?mingw_package_header}
 
-%global snapshot_date 20141203
-%global snapshot_rev a5c151e498a8bff9cf2da51b65fa79b65881f71e
+%global snapshot_date 20141209
+%global snapshot_rev dadc8f83c38992fa4e55e9c90d673c194df70686
 %global snapshot_rev_short %(echo %snapshot_rev | cut -c1-6)
 %global branch trunk
 
 Name:           mingw-crt
 Version:        3.9.999
-Release:        0.2.%{branch}.git.%{snapshot_rev_short}.%{snapshot_date}%{?dist}
+Release:        0.4.%{branch}.git.%{snapshot_rev_short}.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -100,6 +100,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Tue Dec  9 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.9.999-0.4.trunk.git.dadc8f.20141209
+- Update to 20141209 snapshot (git rev dadc8f)
+
 * Wed Dec  3 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.9.999-0.2.trunk.git.a5c151.20141203
 - Update to 20141203 snapshot (git rev a5c151)
 
