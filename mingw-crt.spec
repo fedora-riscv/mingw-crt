@@ -1,13 +1,13 @@
 %{?mingw_package_header}
 
-%global snapshot_date 20141222
-%global snapshot_rev f7337bdf0d70809e720b4e2671758e0c10c16f60
-%global snapshot_rev_short %(echo %snapshot_rev | cut -c1-6)
-%global branch trunk
+#%%global snapshot_date 20141222
+#%%global snapshot_rev f7337bdf0d70809e720b4e2671758e0c10c16f60
+#%%global snapshot_rev_short %(echo %snapshot_rev | cut -c1-6)
+#%%global branch trunk
 
 Name:           mingw-crt
-Version:        3.9.999
-Release:        0.5.%{branch}.git.%{snapshot_rev_short}.%{snapshot_date}%{?dist}
+Version:        3.3.0
+Release:        1%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -35,6 +35,12 @@ BuildRequires:  mingw64-filesystem >= 95
 BuildRequires:  mingw64-binutils
 BuildRequires:  mingw64-headers
 BuildRequires:  mingw64-gcc
+
+# Fix Windows XP compatibility issues mentioned at
+# https://bugzilla.redhat.com/show_bug.cgi?id=1054481
+# Patches are already upstreamed
+Patch0:         0001-Add-_gmtime32-and-_localtime32-to-lib64-msvcrt.def.patch
+Patch2:         0002-Remove-rand_s-and-vsprintf_s-from-msvcrt.def.in.patch
 
 
 %description
@@ -71,6 +77,9 @@ unzip %{S:0}
 %setup -q -n mingw-w64-v%{version}
 %endif
 
+%patch0 -p1
+%patch2 -p1
+
 
 %build
 pushd mingw-w64-crt
@@ -100,70 +109,21 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
-* Mon Dec 22 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.9.999-0.5.trunk.git.f7337b.20141222
-- Update to 20141222 snapshot (git rev f7337b)
+* Fri Dec  5 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.3.0-1
+- Update to 3.3.0
 
-* Tue Dec  9 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.9.999-0.4.trunk.git.dadc8f.20141209
-- Update to 20141209 snapshot (git rev dadc8f)
+* Mon Sep  1 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.2.0-1
+- Update to 3.2.0
 
-* Wed Dec  3 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.9.999-0.2.trunk.git.a5c151.20141203
-- Update to 20141203 snapshot (git rev a5c151)
+* Sun Mar 30 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.0-3
+- Fix Windows XP compatibility in mingw-glib-networking and mingw-sigar
+  (missing strerror_s symbol)
 
-* Fri Sep 12 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.9.999-0.1.trunk.git.b08afb.20140912
-- Update to 20140912 snapshot (git rev b08afb)
-- Bump version as upstream released mingw-w64 v3.2.0 recently (which is not based on the trunk branch)
+* Tue Feb  4 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.0-2
+- Backported various Windows XP compatibility patches (RHBZ #1054481)
 
-* Wed Jul 30 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.12.trunk.gitec1ff7.20140730
-- Update to 20140730 snapshot (git rev ec1ff7)
-- Fixes invalid value of the global variable in6addr_loopback (RHBZ #1124368)
-- Fixes missing memmove_s symbol on Windows XP/Server 2003
-
-* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.1.999-0.11.trunk.gitb8e816.20140530
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
-
-* Fri May 30 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.10.trunk.gitb8e8160.20140530
-- Update to 20140530 snapshot (git rev b8e8160)
-
-* Sat May 24 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.9.trunk.git502c72.20140524
-- Update to 20140524 snapshot (git rev 502c72)
-- Upstream has switched from SVN to Git
-
-* Sun Mar 30 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.8.trunk.r6559.20140330
-- Update to r6559 (20140330 snapshot)
-- Fixes Windows XP compatibility issue in mingw-glib-networking
-  and mingw-sigar (missing strerror_s symbol)
-
-* Mon Feb 24 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.7.trunk.r6497.20140224
-- Update to r6497 (20140224 snapshot)
-
-* Tue Feb 11 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.6.trunk.r6479.20140211
-- Update to r6479 (20140211 snapshot)
-
-* Mon Feb 10 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.5.trunk.r6477.20140210
-- Update to r6477 (20140210 snapshot)
-
-* Sat Feb  8 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.4.trunk.r6475.20140208
-- Update to r6475 (20140208 snapshot)
-
-* Sun Jan 26 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.3.trunk.r6469.20140126
-- Update to r6469 (20140126 snapshot)
-- Fixes missing sprintf_s issue on Windows XP/Server 2003 (RHBZ #1054481)
-
-* Fri Jan 24 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.2.trunk.r6460.20140124
-- Update to r6460 (20140124 snapshot)
-- Fixes missing vsprintf_s issue on Windows XP/Server 2003 (RHBZ #1054481)
-
-* Thu Jan  9 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.1.trunk.r6432.20140104
-- Bump version to keep working upgrade path
-
-* Sat Jan  4 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.0.999-0.3.trunk.r6432.20140104
-- Update to r6432 (20140104 snapshot)
-
-* Fri Nov 29 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.0.999-0.2.trunk.r6388.20131129
-- Update to r6388 (20131129 snapshot)
-
-* Wed Nov 20 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.0.999-0.1.trunk.r6379.20131120
-- Update to r6379 (20131120 snapshot)
+* Thu Jan  9 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.0-1
+- Update to 3.1.0
 
 * Fri Sep 20 2013 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.0.0-1
 - Update to 3.0.0
