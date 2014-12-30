@@ -1,13 +1,13 @@
 %{?mingw_package_header}
 
-%global snapshot_date 20140730
-%global snapshot_rev ec1ff7764fbea4eefbb290c9ba888af3386ede8e
+%global snapshot_date 20141222
+%global snapshot_rev f7337bdf0d70809e720b4e2671758e0c10c16f60
 %global snapshot_rev_short %(echo %snapshot_rev | cut -c1-6)
 %global branch trunk
 
 Name:           mingw-crt
-Version:        3.1.999
-Release:        0.12.%{branch}.git%{snapshot_rev_short}.%{snapshot_date}%{?dist}
+Version:        3.9.999
+Release:        0.5.%{branch}.git.%{snapshot_rev_short}.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -23,9 +23,6 @@ Source0:        http://sourceforge.net/code-snapshots/git/m/mi/mingw-w64/mingw-w
 %else
 Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}.tar.bz2
 %endif
-
-# Upstream commit ec1ff7764fbea4eefbb290c9ba888af3386ede8e is incomplete
-Patch0:         add_memmove_s.patch
 
 BuildArch:      noarch
 
@@ -74,8 +71,6 @@ unzip %{S:0}
 %setup -q -n mingw-w64-v%{version}
 %endif
 
-%patch0 -p1
-
 
 %build
 pushd mingw-w64-crt
@@ -105,6 +100,19 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Mon Dec 22 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.9.999-0.5.trunk.git.f7337b.20141222
+- Update to 20141222 snapshot (git rev f7337b)
+
+* Tue Dec  9 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.9.999-0.4.trunk.git.dadc8f.20141209
+- Update to 20141209 snapshot (git rev dadc8f)
+
+* Wed Dec  3 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.9.999-0.2.trunk.git.a5c151.20141203
+- Update to 20141203 snapshot (git rev a5c151)
+
+* Fri Sep 12 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.9.999-0.1.trunk.git.b08afb.20140912
+- Update to 20140912 snapshot (git rev b08afb)
+- Bump version as upstream released mingw-w64 v3.2.0 recently (which is not based on the trunk branch)
+
 * Wed Jul 30 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.1.999-0.12.trunk.gitec1ff7.20140730
 - Update to 20140730 snapshot (git rev ec1ff7)
 - Fixes invalid value of the global variable in6addr_loopback (RHBZ #1124368)
