@@ -35,8 +35,6 @@ BuildRequires:  mingw64-binutils
 BuildRequires:  mingw64-headers
 BuildRequires:  mingw64-gcc
 
-BuildRequires:  autoconf automake libtool
-
 # Fix Windows XP compatibility issues mentioned at
 # https://bugzilla.redhat.com/show_bug.cgi?id=1054481
 # Patches are already upstreamed
@@ -88,8 +86,6 @@ unzip %{S:0}
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-
-autoreconf -i --force
 
 
 %build

@@ -169,3 +169,47 @@ index 0000000..fbff4e7
 -- 
 2.1.0
 
+--- a/mingw-w64-crt/Makefile.in.orig	2015-01-01 13:58:54.494782913 +0100
++++ b/mingw-w64-crt/Makefile.in	2015-01-01 13:59:07.182986859 +0100
+@@ -4235,23 +4235,24 @@
+ @LIB32_TRUE@	lib32/libwindowscodecs.a lib32/libwinhttp.a \
+ @LIB32_TRUE@	lib32/libwininet.a lib32/libwinmm.a \
+ @LIB32_TRUE@	lib32/libwinscard.a lib32/libwinspool.a \
+-@LIB32_TRUE@	lib32/libwinstrm.a lib32/libwinusb.a \
+-@LIB32_TRUE@	lib32/libwkscli.a lib32/libwlanapi.a \
+-@LIB32_TRUE@	lib32/libwlanui.a lib32/libwlanutil.a \
+-@LIB32_TRUE@	lib32/libwldap32.a lib32/libwow32.a \
+-@LIB32_TRUE@	lib32/libwsdapi.a lib32/libwsnmp32.a \
+-@LIB32_TRUE@	lib32/libwsock32.a lib32/libwst.a \
+-@LIB32_TRUE@	lib32/libwtsapi32.a lib32/libx3daudio1_2.a \
+-@LIB32_TRUE@	lib32/libx3daudio1_3.a lib32/libx3daudio1_4.a \
+-@LIB32_TRUE@	lib32/libx3daudio1_5.a lib32/libx3daudio1_6.a \
+-@LIB32_TRUE@	lib32/libx3daudio1_7.a lib32/libx3daudiod1_7.a \
+-@LIB32_TRUE@	lib32/libxapofx1_0.a lib32/libxapofx1_1.a \
+-@LIB32_TRUE@	lib32/libxapofx1_2.a lib32/libxapofx1_3.a \
+-@LIB32_TRUE@	lib32/libxapofx1_4.a lib32/libxapofx1_5.a \
+-@LIB32_TRUE@	lib32/libxapofxd1_5.a lib32/libxaudio2_8.a \
+-@LIB32_TRUE@	lib32/libxinput1_1.a lib32/libxinput1_2.a \
+-@LIB32_TRUE@	lib32/libxinput1_3.a lib32/libxinput1_4.a \
+-@LIB32_TRUE@	lib32/libxinput9_1_0.a $(am__append_5)
++@LIB32_TRUE@	lib32/libwinstrm.a lib32/libwintrust.a \
++@LIB32_TRUE@	lib32/libwinusb.a lib32/libwkscli.a \
++@LIB32_TRUE@	lib32/libwlanapi.a lib32/libwlanui.a \
++@LIB32_TRUE@	lib32/libwlanutil.a lib32/libwldap32.a \
++@LIB32_TRUE@	lib32/libwow32.a lib32/libwsdapi.a \
++@LIB32_TRUE@	lib32/libwsnmp32.a lib32/libwsock32.a \
++@LIB32_TRUE@	lib32/libwst.a lib32/libwtsapi32.a \
++@LIB32_TRUE@	lib32/libx3daudio1_2.a lib32/libx3daudio1_3.a \
++@LIB32_TRUE@	lib32/libx3daudio1_4.a lib32/libx3daudio1_5.a \
++@LIB32_TRUE@	lib32/libx3daudio1_6.a lib32/libx3daudio1_7.a \
++@LIB32_TRUE@	lib32/libx3daudiod1_7.a lib32/libxapofx1_0.a \
++@LIB32_TRUE@	lib32/libxapofx1_1.a lib32/libxapofx1_2.a \
++@LIB32_TRUE@	lib32/libxapofx1_3.a lib32/libxapofx1_4.a \
++@LIB32_TRUE@	lib32/libxapofx1_5.a lib32/libxapofxd1_5.a \
++@LIB32_TRUE@	lib32/libxaudio2_8.a lib32/libxinput1_1.a \
++@LIB32_TRUE@	lib32/libxinput1_2.a lib32/libxinput1_3.a \
++@LIB32_TRUE@	lib32/libxinput1_4.a lib32/libxinput9_1_0.a \
++@LIB32_TRUE@	$(am__append_5)
+ @LIB32_TRUE@dx32_DATA = lib32/libxinput.a lib32/libxapofx.a \
+ @LIB32_TRUE@	lib32/libx3daudio.a lib32/libd3dx9.a \
+ @LIB32_TRUE@	lib32/libd3dx10.a lib32/libd3dx11.a \
