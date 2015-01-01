@@ -6,7 +6,7 @@
 
 Name:           mingw-crt
 Version:        3.3.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -35,11 +35,19 @@ BuildRequires:  mingw64-binutils
 BuildRequires:  mingw64-headers
 BuildRequires:  mingw64-gcc
 
+BuildRequires:  autoconf automake libtool
+
 # Fix Windows XP compatibility issues mentioned at
 # https://bugzilla.redhat.com/show_bug.cgi?id=1054481
 # Patches are already upstreamed
 Patch0:         0001-Add-_gmtime32-and-_localtime32-to-lib64-msvcrt.def.patch
 Patch2:         0002-Remove-rand_s-and-vsprintf_s-from-msvcrt.def.in.patch
+
+# Add 32bit wintrust.a import library as it's needed by mingw-wine-gecko
+Patch3:         0001-Added-32-bit-version-of-libwintrust.a.patch
+
+# Make sure CLSID_InternetSecurityManager (required by mingw-wine-gecko) is in libuuid.a
+Patch4:         0002-uuid.c-Added-missing-urlmon-CLSIDs-and-get-rid-of-du.patch
 
 
 %description
@@ -78,6 +86,10 @@ unzip %{S:0}
 
 %patch0 -p1
 %patch2 -p1
+%patch3 -p1
+%patch4 -p1
+
+autoreconf -i --force
 
 
 %build
@@ -108,6 +120,10 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Wed Dec 31 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.3.0-2
+- Add 32bit wintrust.a import library as it's needed by mingw-wine-gecko
+- Make sure CLSID_InternetSecurityManager is in libuuid.a as it's needed by mingw-wine-gecko
+
 * Fri Dec  5 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.3.0-1
 - Update to 3.3.0
 
