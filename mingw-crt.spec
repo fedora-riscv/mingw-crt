@@ -1,13 +1,15 @@
 %{?mingw_package_header}
 
-%global snapshot_date 20141222
-%global snapshot_rev f7337bdf0d70809e720b4e2671758e0c10c16f60
-%global snapshot_rev_short %(echo %snapshot_rev | cut -c1-6)
-%global branch trunk
+#%%global snapshot_date 20141222
+#%%global snapshot_rev f7337bdf0d70809e720b4e2671758e0c10c16f60
+#%%global snapshot_rev_short %(echo %snapshot_rev | cut -c1-6)
+#%%global branch trunk
+
+%global pre rc1
 
 Name:           mingw-crt
-Version:        3.9.999
-Release:        0.5.%{branch}.git.%{snapshot_rev_short}.%{snapshot_date}%{?dist}
+Version:        4.0
+Release:        0.1.%{pre}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -21,7 +23,7 @@ URL:            http://mingw-w64.sourceforge.net/
 # spectool -g mingw-crt.spec
 Source0:        http://sourceforge.net/code-snapshots/git/m/mi/mingw-w64/mingw-w64.git/mingw-w64-mingw-w64-%{snapshot_rev}.zip
 %else
-Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}.tar.bz2
+Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}%{?pre:-%{pre}}.tar.bz2
 %endif
 
 BuildArch:      noarch
@@ -68,7 +70,7 @@ cd mingw-w64-v%{version}
 unzip %{S:0}
 %setup -q -D -T -n mingw-w64-v%{version}/mingw-w64-mingw-w64-%{snapshot_rev}
 %else
-%setup -q -n mingw-w64-v%{version}
+%setup -q -n mingw-w64-v%{version}%{?pre:-%{pre}}
 %endif
 
 
@@ -100,6 +102,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Mon Jan 26 2015 Erik van Pienbroek <epienbro@fedoraproject.org> - 4.0-0.1.rc1
+- Update to 4.0rc1
+
 * Mon Dec 22 2014 Erik van Pienbroek <epienbro@fedoraproject.org> - 3.9.999-0.5.trunk.git.f7337b.20141222
 - Update to 20141222 snapshot (git rev f7337b)
 
