@@ -5,11 +5,11 @@
 #%%global snapshot_rev_short %(echo %snapshot_rev | cut -c1-6)
 #%%global branch trunk
 
-%global pre rc1
+%global pre rc3
 
 Name:           mingw-crt
 Version:        4.0
-Release:        0.1.%{pre}%{?dist}
+Release:        0.2.%{pre}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -102,6 +102,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Sat Mar  7 2015 Erik van Pienbroek <epienbro@fedoraproject.org> - 4.0-0.2.rc3
+- Update to 4.0rc3
+
 * Mon Jan 26 2015 Erik van Pienbroek <epienbro@fedoraproject.org> - 4.0-0.1.rc1
 - Update to 4.0rc1
 
