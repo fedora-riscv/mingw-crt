@@ -8,7 +8,7 @@
 #%%global pre rc3
 
 Name:           mingw-crt
-Version:        4.0.0
+Version:        4.0.1
 Release:        1%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
@@ -102,6 +102,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Sun Mar 29 2015 Erik van Pienbroek <epienbro@fedoraproject.org> - 4.0.1-1
+- Update to 4.0.1
+
 * Sat Mar 21 2015 Erik van Pienbroek <epienbro@fedoraproject.org> - 4.0.0-1
 - Update to 4.0.0
 
