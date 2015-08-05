@@ -8,8 +8,8 @@
 #%%global pre rc3
 
 Name:           mingw-crt
-Version:        4.0.2
-Release:        2%{?dist}
+Version:        4.0.4
+Release:        1%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -102,6 +102,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Wed Aug  5 2015 Erik van Pienbroek <epienbro@fedoraproject.org> - 4.0.4-1
+- Update to 4.0.4
+
 * Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.0.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
