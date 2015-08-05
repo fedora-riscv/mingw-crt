@@ -41,9 +41,6 @@ BuildRequires:  mingw64-binutils
 BuildRequires:  mingw64-headers
 BuildRequires:  mingw64-gcc
 
-# Needed for the patch
-BuildRequires:  autoconf automake libtool
-
 
 %description
 MinGW Windows cross-compiler runtime, base libraries.
@@ -80,7 +77,6 @@ unzip %{S:0}
 %endif
 
 %patch0 -p1
-autoreconf -i --force
 
 
 %build
