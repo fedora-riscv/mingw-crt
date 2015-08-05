@@ -1,0 +1,62 @@
+From c4404660d195416cefff0b1de6b99c15888889a9 Mon Sep 17 00:00:00 2001
+From: Jacek Caban <jacek@codeweavers.com>
+Date: Mon, 26 Jan 2015 12:47:10 +0100
+Subject: Added liblocationapi.a.
+
+
+diff --git a/mingw-w64-crt/Makefile.am b/mingw-w64-crt/Makefile.am
+index 4c5bf28..c80b0b6 100644
+--- a/mingw-w64-crt/Makefile.am
++++ b/mingw-w64-crt/Makefile.am
+@@ -104,6 +104,7 @@ src_libdxguid=libsrc/dxguid.c
+ src_libksuser=libsrc/ksuser.c
+ src_libksguid=libsrc/ksuser.c
+ src_liblargeint=libsrc/largeint.c
++src_liblocationapi=libsrc/locationapi.c
+ src_libsensorsapi=libsrc/sensorsapi.c
+ src_libportabledeviceguids=libsrc/portabledeviceguids.c
+ 
+@@ -508,6 +509,10 @@ lib32_LIBRARIES += lib32/libksguid.a
+ lib32_libksguid_a_SOURCES = $(src_libksguid)
+ lib32_libksguid_a_CPPFLAGS=$(CPPFLAGS32) $(sysincludes)
+ 
++lib32_LIBRARIES += lib32/liblocationapi.a
++lib32_liblocationapi_a_SOURCES = $(src_liblocationapi)
++lib32_liblocationapi_a_CPPFLAGS=$(CPPFLAGS32) $(sysincludes)
++
+ lib32_LIBRARIES += lib32/libsensorsapi.a
+ lib32_libsensorsapi_a_SOURCES = $(src_libsensorsapi)
+ lib32_libsensorsapi_a_CPPFLAGS=$(CPPFLAGS32) $(sysincludes)
+@@ -744,6 +749,10 @@ lib64_LIBRARIES += lib64/libdxguid.a
+ lib64_libdxguid_a_SOURCES = $(src_libdxguid)
+ lib64_libdxguid_a_CPPFLAGS=$(CPPFLAGS64) $(sysincludes)
+ 
++lib64_LIBRARIES += lib64/liblocationapi.a
++lib64_liblocationapi_a_SOURCES = $(src_liblocationapi)
++lib64_liblocationapi_a_CPPFLAGS=$(CPPFLAGS64) $(sysincludes)
++
+ lib64_LIBRARIES += lib64/libsensorsapi.a
+ lib64_libsensorsapi_a_SOURCES = $(src_libsensorsapi)
+ lib64_libsensorsapi_a_CPPFLAGS=$(CPPFLAGS64) $(sysincludes)
+@@ -1264,6 +1273,10 @@ libarm32_LIBRARIES += libarm32/libksguid.a
+ libarm32_libksguid_a_SOURCES = $(src_libksguid)
+ libarm32_libksguid_a_CPPFLAGS=$(CPPFLAGSARM32) $(sysincludes)
+ 
++libarm32_LIBRARIES += libarm32/liblocationapi.a
++libarm32_liblocationapi_a_SOURCES = $(src_liblocationapi)
++libarm32_liblocationapi_a_CPPFLAGS=$(CPPFLAGSARM32) $(sysincludes)
++
+ libarm32_LIBRARIES += libarm32/libsensorsapi.a
+ libarm32_libsensorsapi_a_SOURCES = $(src_libsensorsapi)
+ libarm32_libsensorsapi_a_CPPFLAGS=$(CPPFLAGSARM32) $(sysincludes)
+diff --git a/mingw-w64-crt/libsrc/locationapi.c b/mingw-w64-crt/libsrc/locationapi.c
+new file mode 100644
+index 0000000..e2c87c2
+--- /dev/null
++++ b/mingw-w64-crt/libsrc/locationapi.c
+@@ -0,0 +1,5 @@
++
++#include <sensorsapi.h>
++
++#include <initguid.h>
++#include <locationapi.h>

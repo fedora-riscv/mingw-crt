@@ -26,6 +26,9 @@ Source0:        http://sourceforge.net/code-snapshots/git/m/mi/mingw-w64/mingw-w
 Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}%{?pre:-%{pre}}.tar.bz2
 %endif
 
+# Backport commit needed by wine-gecko 2.40-beta1
+Patch0:         commit-c440466
+
 BuildArch:      noarch
 
 BuildRequires:  mingw32-filesystem >= 95
@@ -37,6 +40,9 @@ BuildRequires:  mingw64-filesystem >= 95
 BuildRequires:  mingw64-binutils
 BuildRequires:  mingw64-headers
 BuildRequires:  mingw64-gcc
+
+# Needed for the patch
+BuildRequires:  autoconf automake libtool
 
 
 %description
@@ -72,6 +78,9 @@ unzip %{S:0}
 %else
 %setup -q -n mingw-w64-v%{version}%{?pre:-%{pre}}
 %endif
+
+%patch0 -p1
+autoreconf -i --force
 
 
 %build
