@@ -1,15 +1,15 @@
 %{?mingw_package_header}
 
-#%%global snapshot_date 20141222
-#%%global snapshot_rev f7337bdf0d70809e720b4e2671758e0c10c16f60
-#%%global snapshot_rev_short %(echo %snapshot_rev | cut -c1-6)
-#%%global branch trunk
+%global snapshot_date 20151224
+%global snapshot_rev 5e2e73b7754fca77ef7635cf52c73a3885110603
+%global snapshot_rev_short %(echo %snapshot_rev | cut -c1-6)
+%global branch trunk
 
 #%%global pre rc3
 
 Name:           mingw-crt
-Version:        4.0.4
-Release:        1%{?dist}
+Version:        4.9.999
+Release:        0.1.%{branch}.git%{snapshot_rev_short}.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -25,9 +25,6 @@ Source0:        http://sourceforge.net/code-snapshots/git/m/mi/mingw-w64/mingw-w
 %else
 Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}%{?pre:-%{pre}}.tar.bz2
 %endif
-
-# Backport commit needed by wine-gecko 2.40-beta1
-Patch0:         commit-c440466
 
 BuildArch:      noarch
 
@@ -76,8 +73,6 @@ unzip %{S:0}
 %setup -q -n mingw-w64-v%{version}%{?pre:-%{pre}}
 %endif
 
-%patch0 -p1
-
 
 %build
 pushd mingw-w64-crt
@@ -107,6 +102,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Thu Dec 24 2015 Erik van Pienbroek <epienbro@fedoraproject.org> - 4.9.999-0.1.trunk.git.5e2e73.20151224
+- Update to 20151224 snapshot (git rev 5e2e73)
+
 * Wed Aug  5 2015 Erik van Pienbroek <epienbro@fedoraproject.org> - 4.0.4-1
 - Update to 4.0.4
 
