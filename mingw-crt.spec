@@ -2,6 +2,7 @@
 
 %global snapshot_date 20160204
 %global snapshot_rev 38410ad06264949efcb331f7a63575c6be31c5e4
+%global snapshot_rev_short %(echo %snapshot_rev | cut -c1-6)
 %global branch trunk
 
 #%%global pre rc3
