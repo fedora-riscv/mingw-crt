@@ -1,15 +1,14 @@
 %{?mingw_package_header}
 
-%global snapshot_date 20151224
-%global snapshot_rev 5e2e73b7754fca77ef7635cf52c73a3885110603
-%global snapshot_rev_short %(echo %snapshot_rev | cut -c1-6)
+%global snapshot_date 20160204
+%global snapshot_rev 38410ad06264949efcb331f7a63575c6be31c5e4
 %global branch trunk
 
 #%%global pre rc3
 
 Name:           mingw-crt
 Version:        4.9.999
-Release:        0.2.%{branch}.git%{snapshot_rev_short}.%{snapshot_date}%{?dist}
+Release:        0.3.%{branch}.git%{snapshot_rev_short}.%{snapshot_date}%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -102,6 +101,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Thu Feb  4 2016 Erik van Pienbroek <epienbro@fedoraproject.org> - 4.9.999-0.3.trunk.git38410a.20160204
+- Update to 20160204 snapshot (git rev 38410a)
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 4.9.999-0.2.trunk.git5e2e73.20151224
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
