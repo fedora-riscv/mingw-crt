@@ -1,0 +1,64 @@
+From ac13c19481c68be134b9b127f2d5b9c0abec7ca6 Mon Sep 17 00:00:00 2001
+From: Jacek Caban <jacek@codeweavers.com>
+Date: Sun, 26 Jul 2015 15:45:34 +0200
+Subject: Added libsapi.a.
+
+
+diff --git a/mingw-w64-crt/Makefile.am b/mingw-w64-crt/Makefile.am
+index aa16fc9..8b91f0c 100644
+--- a/mingw-w64-crt/Makefile.am
++++ b/mingw-w64-crt/Makefile.am
+@@ -106,6 +106,7 @@ src_libksuser=libsrc/ksuser.c
+ src_libksguid=libsrc/ksuser.c
+ src_liblargeint=libsrc/largeint.c
+ src_liblocationapi=libsrc/locationapi.c
++src_libsapi=libsrc/sapi.c
+ src_libsensorsapi=libsrc/sensorsapi.c
+ src_libportabledeviceguids=libsrc/portabledeviceguids.c
+ 
+@@ -519,6 +520,10 @@ lib32_LIBRARIES += lib32/liblocationapi.a
+ lib32_liblocationapi_a_SOURCES = $(src_liblocationapi)
+ lib32_liblocationapi_a_CPPFLAGS=$(CPPFLAGS32) $(sysincludes)
+ 
++lib32_LIBRARIES += lib32/libsapi.a
++lib32_libsapi_a_SOURCES = $(src_libsapi)
++lib32_libsapi_a_CPPFLAGS=$(CPPFLAGS32) $(sysincludes)
++
+ lib32_LIBRARIES += lib32/libsensorsapi.a
+ lib32_libsensorsapi_a_SOURCES = $(src_libsensorsapi)
+ lib32_libsensorsapi_a_CPPFLAGS=$(CPPFLAGS32) $(sysincludes)
+@@ -763,6 +768,10 @@ lib64_LIBRARIES += lib64/liblocationapi.a
+ lib64_liblocationapi_a_SOURCES = $(src_liblocationapi)
+ lib64_liblocationapi_a_CPPFLAGS=$(CPPFLAGS64) $(sysincludes)
+ 
++lib64_LIBRARIES += lib64/libsapi.a
++lib64_libsapi_a_SOURCES = $(src_libsapi)
++lib64_libsapi_a_CPPFLAGS=$(CPPFLAGS64) $(sysincludes)
++
+ lib64_LIBRARIES += lib64/libsensorsapi.a
+ lib64_libsensorsapi_a_SOURCES = $(src_libsensorsapi)
+ lib64_libsensorsapi_a_CPPFLAGS=$(CPPFLAGS64) $(sysincludes)
+@@ -1294,6 +1303,10 @@ libarm32_LIBRARIES += libarm32/libsensorsapi.a
+ libarm32_libsensorsapi_a_SOURCES = $(src_libsensorsapi)
+ libarm32_libsensorsapi_a_CPPFLAGS=$(CPPFLAGSARM32) $(sysincludes)
+ 
++libarm32_LIBRARIES += libarm32/libsapi.a
++libarm32_libsapi_a_SOURCES = $(src_libsapi)
++libarm32_libsapi_a_CPPFLAGS=$(CPPFLAGSARM32) $(sysincludes)
++
+ libarm32_LIBRARIES += libarm32/libportabledeviceguids.a
+ libarm32_libportabledeviceguids_a_SOURCES = $(src_libportabledeviceguids)
+ libarm32_libportabledeviceguids_a_CPPFLAGS=$(CPPFLAGSARM32) $(sysincludes)
+diff --git a/mingw-w64-crt/libsrc/sapi.c b/mingw-w64-crt/libsrc/sapi.c
+new file mode 100644
+index 0000000..ccca156
+--- /dev/null
++++ b/mingw-w64-crt/libsrc/sapi.c
+@@ -0,0 +1,7 @@
++
++#include <windows.h>
++#include <ocidl.h>
++#include <oaidl.h>
++
++#include <initguid.h>
++#include <sapi.h>

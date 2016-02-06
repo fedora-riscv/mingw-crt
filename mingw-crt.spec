@@ -9,7 +9,7 @@
 
 Name:           mingw-crt
 Version:        4.0.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -28,6 +28,9 @@ Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}
 
 # Backport commit needed by wine-gecko 2.40-beta1
 Patch0:         commit-c440466
+
+# Additional backported commit for wine-gecko 2.44
+Patch1:         commit-ac13c19
 
 BuildArch:      noarch
 
@@ -80,6 +83,7 @@ unzip %{S:0}
 %endif
 
 %patch0 -p1
+%patch1 -p1
 autoreconf -i --force
 
 
@@ -111,6 +115,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Sat Feb  6 2016 Erik van Pienbroek <epienbro@fedoraproject.org> - 4.0.4-2
+- Backport additional commit needed to build wine-gecko 2.44
+
 * Wed Aug  5 2015 Erik van Pienbroek <epienbro@fedoraproject.org> - 4.0.4-1
 - Update to 4.0.4
 
