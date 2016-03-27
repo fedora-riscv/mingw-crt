@@ -1,15 +1,15 @@
 %{?mingw_package_header}
 
-%global snapshot_date 20160204
-%global snapshot_rev 38410ad06264949efcb331f7a63575c6be31c5e4
-%global snapshot_rev_short %(echo %snapshot_rev | cut -c1-6)
-%global branch trunk
+#%%global snapshot_date 20160204
+#%%global snapshot_rev 38410ad06264949efcb331f7a63575c6be31c5e4
+#%%global snapshot_rev_short %(echo %snapshot_rev | cut -c1-6)
+#%%global branch trunk
 
-#%%global pre rc3
+%global pre rc2
 
 Name:           mingw-crt
-Version:        4.9.999
-Release:        0.3.%{branch}.git%{snapshot_rev_short}.%{snapshot_date}%{?dist}
+Version:        5.0
+Release:        0.1.rc2%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -102,6 +102,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Sun Mar 27 2016 Erik van Pienbroek <epienbro@fedoraproject.org> - 5.0-0.1.rc2
+- Update to 5.0rc2
+
 * Thu Feb  4 2016 Erik van Pienbroek <epienbro@fedoraproject.org> - 4.9.999-0.3.trunk.git38410a.20160204
 - Update to 20160204 snapshot (git rev 38410a)
 
