@@ -13,7 +13,6 @@ Release:        1%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
-Group:          Development/Libraries
 URL:            http://mingw-w64.sourceforge.net/
 %if 0%{?snapshot_date}
 # To regenerate a snapshot:
@@ -104,6 +103,7 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 %changelog
 * Wed Oct 26 2016 Kalev Lember <klember@redhat.com> - 5.0.0-1
 - Update to 5.0.0
+- Don't set group tags
 
 * Sat Jul 23 2016 Erik van Pienbroek <epienbro@fedoraproject.org> - 5.0-0.2.rc2.v5.x.git65a0c3.20160723
 - Update to 20160204 snapshot of the v5.x branch (git rev 65a0c3)
