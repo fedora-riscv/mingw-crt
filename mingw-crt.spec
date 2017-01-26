@@ -8,7 +8,7 @@
 #%%global pre rc2
 
 Name:           mingw-crt
-Version:        5.0.0
+Version:        5.0.1
 Release:        1%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
@@ -101,6 +101,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Thu Jan 26 2017 Kalev Lember <klember@redhat.com> - 5.0.1-1
+- Update to 5.0.1
+
 * Wed Oct 26 2016 Kalev Lember <klember@redhat.com> - 5.0.0-1
 - Update to 5.0.0
 - Don't set group tags
