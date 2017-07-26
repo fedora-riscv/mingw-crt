@@ -9,7 +9,7 @@
 
 Name:           mingw-crt
 Version:        5.0.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -101,6 +101,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Wed Jul 26 2017 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
 * Wed May 17 2017 Kalev Lember <klember@redhat.com> - 5.0.2-1
 - Update to 5.0.2
 
