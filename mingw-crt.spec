@@ -8,8 +8,8 @@
 #%%global pre rc2
 
 Name:           mingw-crt
-Version:        5.0.2
-Release:        3%{?dist}
+Version:        5.0.3
+Release:        1%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -24,6 +24,11 @@ Source0:        http://sourceforge.net/code-snapshots/git/m/mi/mingw-w64/mingw-w
 %else
 Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}%{?pre:-%{pre}}.tar.bz2
 %endif
+
+# Fix incomplete dwmapi.a on x86_64
+# See https://sourceforge.net/p/mingw-w64/mailman/message/36166386/
+# See also https://bugreports.qt.io/browse/QTBUG-63627
+Patch0:         0001-dwmapi.def-Regenegerate-from-Windows-10.patch
 
 BuildArch:      noarch
 
@@ -71,6 +76,7 @@ unzip %{S:0}
 %else
 %setup -q -n mingw-w64-v%{version}%{?pre:-%{pre}}
 %endif
+%patch0 -p1
 
 
 %build
@@ -101,6 +107,10 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Wed May 30 2018 Sandro Mani <manisandro@gmail.com> - 5.0.3-1
+- Update to 5.0.3
+- Backport patch for incomplete dwmapi.a
+
 * Thu Feb 08 2018 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
