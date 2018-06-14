@@ -9,7 +9,7 @@
 
 Name:           mingw-crt
 Version:        5.0.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -107,6 +107,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Thu Jun 14 2018 Sandro Mani <manisandro@gmail.com> - 5.0.3-1
+- Rebuild (mingw-headers)
+
 * Wed May 30 2018 Sandro Mani <manisandro@gmail.com> - 5.0.3-1
 - Update to 5.0.3
 - Backport patch for incomplete dwmapi.a
