@@ -8,8 +8,8 @@
 #%%global pre rc2
 
 Name:           mingw-crt
-Version:        5.0.3
-Release:        2%{?dist}
+Version:        5.0.4
+Release:        1%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -107,6 +107,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Mon Jul 09 2018 Kalev Lember <klember@redhat.com> - 5.0.4-1
+- Update to 5.0.4
+
 * Thu Jun 14 2018 Sandro Mani <manisandro@gmail.com> - 5.0.3-2
 - Rebuild (mingw-headers)
 
