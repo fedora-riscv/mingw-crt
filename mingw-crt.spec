@@ -107,7 +107,7 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
-* Thu Jun 14 2018 Sandro Mani <manisandro@gmail.com> - 5.0.3-1
+* Thu Jun 14 2018 Sandro Mani <manisandro@gmail.com> - 5.0.3-2
 - Rebuild (mingw-headers)
 
 * Wed May 30 2018 Sandro Mani <manisandro@gmail.com> - 5.0.3-1
