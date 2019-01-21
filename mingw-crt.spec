@@ -9,7 +9,7 @@
 
 Name:           mingw-crt
 Version:        5.0.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -76,6 +76,7 @@ unzip %{S:0}
 %else
 %setup -q -n mingw-w64-v%{version}%{?pre:-%{pre}}
 %endif
+%patch0 -p1
 
 
 %build
@@ -106,6 +107,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Mon Jan 21 2019 Sandro Mani <manisandro@gmail.com> - 5.0.2-5
+- Actually apply patch...
+
 * Mon Jan 21 2019 Sandro Mani <manisandro@gmail.com> - 5.0.2-4
 - Add 0001-dwmapi.def-Regenegerate-from-Windows-10.patch
 
