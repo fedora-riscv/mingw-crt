@@ -9,7 +9,7 @@
 
 Name:           mingw-crt
 Version:        6.0.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -101,6 +101,9 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_includedir}/*.c
 
 
 %changelog
+* Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 6.0.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+
 * Tue Oct 08 2019 Sandro Mani <manisandro@gmail.com> - 6.0.0-3
 - Rebuild (Changes/Mingw32GccDwarf2)
 
