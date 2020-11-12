@@ -77,13 +77,13 @@ unzip %{S:0}
 pushd mingw-w64-crt
     MINGW64_CONFIGURE_ARGS="--disable-lib32"
     %mingw_configure
-    %mingw_make %{?_smp_mflags}
+    %mingw_make_build
 popd
 
 
 %install
 pushd mingw-w64-crt
-    %mingw_make_install DESTDIR=%{buildroot}
+    %mingw_make_install
 popd
 
 # Dunno what to do with these files
