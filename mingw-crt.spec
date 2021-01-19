@@ -8,8 +8,8 @@
 #%%global pre rc2
 
 Name:           mingw-crt
-Version:        7.0.0
-Release:        2%{?dist}
+Version:        8.0.0
+Release:        1%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -27,7 +27,8 @@ Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}
 
 BuildArch:      noarch
 
-BuildRequires: make
+BuildRequires:  make
+
 BuildRequires:  mingw32-filesystem >= 95
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-headers
@@ -76,6 +77,9 @@ unzip %{S:0}
 
 %build
 pushd mingw-w64-crt
+    # Filter out -fstack-protector and -lssp from LDFLAGS as libssp is not yet potentially built with the bootstrap gcc
+    MINGW32_LDFLAGS="`echo %{mingw32_ldflags} | sed 's|-fstack-protector||' | sed 's|-lssp||'`"
+    MINGW64_LDFLAGS="`echo %{mingw64_ldflags} | sed 's|-fstack-protector||' | sed 's|-lssp||'`"
     MINGW64_CONFIGURE_ARGS="--disable-lib32"
     %mingw_configure
     %mingw_make_build
@@ -102,6 +106,9 @@ rm -rf %{buildroot}%{mingw64_includedir}/*.c
 
 
 %changelog
+* Sat Jan 16 2021 Sandro Mani <manisandro@gmail.com> - 8.0.0-1
+- Update to 8.0.0
+
 * Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 
