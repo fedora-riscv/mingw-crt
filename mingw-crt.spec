@@ -9,7 +9,7 @@
 
 Name:           mingw-crt
 Version:        8.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -106,6 +106,9 @@ rm -rf %{buildroot}%{mingw64_includedir}/*.c
 
 
 %changelog
+* Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 8.0.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
+
 * Sat Jan 16 2021 Sandro Mani <manisandro@gmail.com> - 8.0.0-1
 - Update to 8.0.0
 
