@@ -8,8 +8,8 @@
 #%%global pre rc2
 
 Name:           mingw-crt
-Version:        8.0.0
-Release:        2%{?dist}
+Version:        8.0.2
+Release:        1%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -24,6 +24,8 @@ Source0:        http://sourceforge.net/code-snapshots/git/m/mi/mingw-w64/mingw-w
 %else
 Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}%{?pre:-%{pre}}.tar.bz2
 %endif
+# Fix build failure with gcc11
+Patch0:         mingw-crt_gcc11.patch
 
 BuildArch:      noarch
 
@@ -106,6 +108,9 @@ rm -rf %{buildroot}%{mingw64_includedir}/*.c
 
 
 %changelog
+* Mon May 17 2021 Sandro Mani <manisandro@gmail.com> - 8.0.2-1
+- Update to 8.0.2
+
 * Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 8.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
 
