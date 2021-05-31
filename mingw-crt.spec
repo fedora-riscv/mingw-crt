@@ -9,7 +9,7 @@
 
 Name:           mingw-crt
 Version:        8.0.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -26,6 +26,9 @@ Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}
 %endif
 # Fix build failure with gcc11
 Patch0:         mingw-crt_gcc11.patch
+# Backport fix for incorrect exports in api-ms-win-core-path-l1-1-0.def
+# https://sourceforge.net/p/mingw-w64/mingw-w64/ci/6bdcb3ad26c9412a786eb9989f462e6f4e55df91/
+Patch1:         wincore-def.patch
 
 BuildArch:      noarch
 
@@ -108,6 +111,9 @@ rm -rf %{buildroot}%{mingw64_includedir}/*.c
 
 
 %changelog
+* Mon May 31 2021 Sandro Mani <manisandro@gmail.com> - 8.0.2-2
+- Add wincore-def.patch
+
 * Mon May 17 2021 Sandro Mani <manisandro@gmail.com> - 8.0.2-1
 - Update to 8.0.2
 
