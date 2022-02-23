@@ -1,3 +1,4 @@
+%global mingw_build_ucrt64 1
 %{?mingw_package_header}
 
 #%%global snapshot_date 20160723
@@ -9,7 +10,7 @@
 
 Name:           mingw-crt
 Version:        9.0.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -31,16 +32,20 @@ BuildArch:      noarch
 
 BuildRequires:  make
 
-BuildRequires:  mingw32-filesystem >= 95
+BuildRequires:  mingw32-filesystem >= 133
 BuildRequires:  mingw32-binutils
 BuildRequires:  mingw32-headers
 BuildRequires:  mingw32-gcc
 
-BuildRequires:  mingw64-filesystem >= 95
+BuildRequires:  mingw64-filesystem >= 133
 BuildRequires:  mingw64-binutils
 BuildRequires:  mingw64-headers
 BuildRequires:  mingw64-gcc
 
+BuildRequires:  ucrt64-filesystem >= 133
+BuildRequires:  ucrt64-binutils
+BuildRequires:  ucrt64-headers
+BuildRequires:  ucrt64-gcc
 
 %description
 MinGW Windows cross-compiler runtime, base libraries.
@@ -50,7 +55,7 @@ MinGW Windows cross-compiler runtime, base libraries.
 Summary:        MinGW Windows cross-compiler runtime for the win32 target
 Obsoletes:      mingw32-runtime < 3.18-7%{?dist}
 Provides:       mingw32-runtime = 3.18-7%{?dist}
-Requires:       mingw32-filesystem >= 95
+Requires:       mingw32-filesystem >= 133
 
 %description -n mingw32-crt
 MinGW Windows cross-compiler runtime, base libraries for the win32 target.
@@ -59,9 +64,18 @@ MinGW Windows cross-compiler runtime, base libraries for the win32 target.
 Summary:        MinGW Windows cross-compiler runtime for the win64 target
 Obsoletes:      mingw64-runtime < 1.0-0.3.20100914%{?dist}
 Provides:       mingw64-runtime = 1.0-0.3.20100914%{?dist}
-Requires:       mingw64-filesystem >= 95
+Requires:       mingw64-filesystem >= 133
 
 %description -n mingw64-crt
+MinGW Windows cross-compiler runtime, base libraries for the win64 target.
+
+%package -n ucrt64-crt
+Summary:        MinGW Windows cross-compiler runtime for the win64 target
+Obsoletes:      ucrt64-runtime < 1.0-0.3.20100914%{?dist}
+Provides:       ucrt64-runtime = 1.0-0.3.20100914%{?dist}
+Requires:       ucrt64-filesystem >= 133
+
+%description -n ucrt64-crt
 MinGW Windows cross-compiler runtime, base libraries for the win64 target.
 
 
@@ -83,6 +97,8 @@ pushd mingw-w64-crt
     MINGW32_LDFLAGS="`echo %{mingw32_ldflags} | sed 's|-fstack-protector||' | sed 's|-lssp||'`"
     MINGW64_LDFLAGS="`echo %{mingw64_ldflags} | sed 's|-fstack-protector||' | sed 's|-lssp||'`"
     MINGW64_CONFIGURE_ARGS="--disable-lib32"
+    UCRT64_LDFLAGS="`echo %{ucrt64_ldflags} | sed 's|-fstack-protector||' | sed 's|-lssp||'`"
+    UCRT64_CONFIGURE_ARGS="--disable-lib32 --with-default-msvcrt=ucrt"
     %mingw_configure
     %mingw_make_build
 popd
@@ -96,6 +112,7 @@ popd
 # Dunno what to do with these files
 rm -rf %{buildroot}%{mingw32_includedir}/*.c
 rm -rf %{buildroot}%{mingw64_includedir}/*.c
+rm -rf %{buildroot}%{ucrt64_includedir}/*.c
 
 
 %files -n mingw32-crt
@@ -106,8 +123,15 @@ rm -rf %{buildroot}%{mingw64_includedir}/*.c
 %license COPYING DISCLAIMER DISCLAIMER.PD
 %{mingw64_libdir}/*
 
+%files -n ucrt64-crt
+%license COPYING DISCLAIMER DISCLAIMER.PD
+%{ucrt64_libdir}/*
+
 
 %changelog
+* Wed Feb 23 2022 Marc-André Lureau <marcandre.lureau@redhat.com> - 9.0.0-4
+- Add UCRT64 target
+
 * Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 9.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
