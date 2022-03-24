@@ -1,5 +1,7 @@
 %global mingw_build_ucrt64 1
 %{?mingw_package_header}
+# Race condition with parallel build
+%global _smp_mflags -j1
 
 #%%global snapshot_date 20160723
 #%%global snapshot_rev 65a0c3298db7cc5cbded63259663cb29e4780a56
@@ -10,7 +12,7 @@
 
 Name:           mingw-crt
 Version:        9.0.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -129,6 +131,9 @@ rm -rf %{buildroot}%{ucrt64_includedir}/*.c
 
 
 %changelog
+* Thu Mar 24 2022 Sandro Mani <manisandro@gmail.com> - 9.0.0-5
+- Rebuild with gcc12
+
 * Wed Feb 23 2022 Marc-André Lureau <marcandre.lureau@redhat.com> - 9.0.0-4
 - Add UCRT64 target
 
