@@ -12,7 +12,7 @@
 
 Name:           mingw-crt
 Version:        9.0.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -131,6 +131,9 @@ rm -rf %{buildroot}%{ucrt64_includedir}/*.c
 
 
 %changelog
+* Fri Mar 25 2022 Sandro Mani <manisandro@gmail.com> - 9.0.0-6
+- Rebuild with mingw-gcc-12
+
 * Thu Mar 24 2022 Sandro Mani <manisandro@gmail.com> - 9.0.0-5
 - Rebuild with gcc12
 
