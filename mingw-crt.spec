@@ -9,7 +9,7 @@
 
 Name:           mingw-crt
 Version:        10.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
