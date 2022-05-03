@@ -1,14 +1,11 @@
 %global mingw_build_ucrt64 1
+
 %{?mingw_package_header}
-# Race condition with parallel build
-%global _smp_mflags -j1
 
-#%%global snapshot_date 20160723
-#%%global snapshot_rev 65a0c3298db7cc5cbded63259663cb29e4780a56
-#%%global snapshot_rev_short %(echo %snapshot_rev | cut -c1-6)
-#%%global branch v5.x
-
-#%%global pre rc2
+# Steps:
+# - Perform (scratch) build with bootstrap=1
+# - Update the standard-dlls-xxx files as documented below, and rebuild with bootstrap=0
+%global bootstrap 0
 
 Name:           mingw-crt
 Version:        10.0.0
@@ -17,16 +14,30 @@ Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
 URL:            http://mingw-w64.sourceforge.net/
-%if 0%{?snapshot_date}
-# To regenerate a snapshot:
-# Use your regular webbrowser to open https://sourceforge.net/p/mingw-w64/mingw-w64/ci/%{snapshot_rev}/tarball
-# This triggers the SourceForge instructure to generate a snapshot
-# After that you can pull in the archive with:
-# spectool -g mingw-crt.spec
-Source0:        http://sourceforge.net/code-snapshots/git/m/mi/mingw-w64/mingw-w64.git/mingw-w64-mingw-w64-%{snapshot_rev}.zip
-%else
-Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}%{?pre:-%{pre}}.tar.bz2
-%endif
+Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}.tar.bz2
+
+
+# Note about standard dlls
+# ------------------------------------------------------------
+#
+# We want to be able to build & install mingw32 libraries without
+# necessarily needing to install wine.  (And certainly not needing to
+# install Windows!)  There is no requirement to have wine installed in
+# order to use the mingw toolchain to develop software (i.e. to
+# compile more stuff on top of it), so why require that?
+#
+# So for expediency, this base package provides the "missing" DLLs
+# from Windows.  Another way to do it would be to exclude these
+# proprietary DLLs in our find-requires checking script - essentially
+# it comes out the same either way.
+#
+# (rpm -ql mingw32-crt | grep '\.a$' | while read f ; do i686-w64-mingw32-dlltool   -I $f 2>/dev/null ; done) | sort | uniq | tr A-Z a-z > standard-dlls-mingw32
+Source1:       standard-dlls-mingw32
+# (rpm -ql mingw64-crt | grep '\.a$' | while read f ; do x86_64-w64-mingw32-dlltool -I $f 2>/dev/null ; done) | sort | uniq | tr A-Z a-z > standard-dlls-mingw64
+Source2:       standard-dlls-mingw64
+# (rpm -ql ucrt64-crt | grep '\.a$' | while read f ; do x86_64-w64-mingw32ucrt-dlltool -I $f 2>/dev/null ; done) | sort | uniq | tr A-Z a-z > standard-dlls-ucrt64
+Source3:       standard-dlls-ucrt64
+
 # Fix build failure with gcc11
 Patch0:         mingw-crt_gcc11.patch
 
@@ -55,42 +66,40 @@ MinGW Windows cross-compiler runtime, base libraries.
 
 %package -n mingw32-crt
 Summary:        MinGW Windows cross-compiler runtime for the win32 target
-Obsoletes:      mingw32-runtime < 3.18-7%{?dist}
-Provides:       mingw32-runtime = 3.18-7%{?dist}
 Requires:       mingw32-filesystem >= 133
+%if 0%{?bootstrap:1}
+Provides:       %(sed "s/\(.*\)/mingw32(\1) /g" %{SOURCE1} | tr "\n" " ")
+Provides:       mingw32(mscoree.dll)
+%endif
 
 %description -n mingw32-crt
 MinGW Windows cross-compiler runtime, base libraries for the win32 target.
 
 %package -n mingw64-crt
 Summary:        MinGW Windows cross-compiler runtime for the win64 target
-Obsoletes:      mingw64-runtime < 1.0-0.3.20100914%{?dist}
-Provides:       mingw64-runtime = 1.0-0.3.20100914%{?dist}
 Requires:       mingw64-filesystem >= 133
+%if 0%{?bootstrap:1}
+Provides:       %(sed "s/\(.*\)/mingw64(\1) /g" %{SOURCE2} | tr "\n" " ")
+Provides:       mingw64(mscoree.dll)
+%endif
 
 %description -n mingw64-crt
 MinGW Windows cross-compiler runtime, base libraries for the win64 target.
 
 %package -n ucrt64-crt
 Summary:        MinGW Windows cross-compiler runtime for the win64 target
-Obsoletes:      ucrt64-runtime < 1.0-0.3.20100914%{?dist}
-Provides:       ucrt64-runtime = 1.0-0.3.20100914%{?dist}
 Requires:       ucrt64-filesystem >= 133
+%if 0%{?bootstrap:1}
+Provides:       %(sed "s/\(.*\)/ucrt64(\1) /g" %{SOURCE3} | tr "\n" " ")
+Provides:       ucrt64(mscoree.dll)
+%endif
 
 %description -n ucrt64-crt
 MinGW Windows cross-compiler runtime, base libraries for the win64 target.
 
 
 %prep
-%if 0%{?snapshot_date}
-rm -rf mingw-w64-v%{version}
-mkdir mingw-w64-v%{version}
-cd mingw-w64-v%{version}
-unzip %{S:0}
-%autosetup -p1 -D -T -n mingw-w64-v%{version}/mingw-w64-mingw-w64-%{snapshot_rev}
-%else
-%autosetup -p1 -n mingw-w64-v%{version}%{?pre:-%{pre}}
-%endif
+%autosetup -p1 -n mingw-w64-v%{version}
 
 
 %build
@@ -131,6 +140,10 @@ rm -rf %{buildroot}%{ucrt64_includedir}/*.c
 
 
 %changelog
+* Tue May 03 2022 Sandro Mani <manisandro@gmail.com> - 10.0.0-2
+- Provide standard DLLs
+- Spec cleanups
+
 * Tue Apr 26 2022 Sandro Mani <manisandro@gmail.com> - 10.0.0-1
 - Update to 10.0.0
 
