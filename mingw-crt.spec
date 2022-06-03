@@ -9,7 +9,7 @@
 
 Name:           mingw-crt
 Version:        9.0.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -26,6 +26,8 @@ Source0:        http://downloads.sourceforge.net/mingw-w64/mingw-w64-v%{version}
 %endif
 # Fix build failure with gcc11
 Patch0:         mingw-crt_gcc11.patch
+# Backport API additions to get Qt6 building
+Patch1:         https://github.com/mirror/mingw-w64/commit/0f647f.patch
 
 BuildArch:      noarch
 
@@ -108,6 +110,9 @@ rm -rf %{buildroot}%{mingw64_includedir}/*.c
 
 
 %changelog
+* Fri Jun 03 2022 Sandro Mani <manisandro@gmail.com> - 9.0.0-4
+- Backport API additions to get Qt6 building
+
 * Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 9.0.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
