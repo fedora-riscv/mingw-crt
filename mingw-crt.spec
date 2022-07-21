@@ -9,7 +9,7 @@
 
 Name:           mingw-crt
 Version:        10.0.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        MinGW Windows cross-compiler runtime
 
 License:        Public Domain and ZPLv2.1
@@ -140,6 +140,9 @@ rm -rf %{buildroot}%{ucrt64_includedir}/*.c
 
 
 %changelog
+* Thu Jul 21 2022 Fedora Release Engineering <releng@fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild
+
 * Tue May 03 2022 Sandro Mani <manisandro@gmail.com> - 10.0.0-2
 - Provide standard DLLs
 - Spec cleanups
