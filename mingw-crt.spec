@@ -5,7 +5,8 @@
 # Steps:
 # - Perform (scratch) build with bootstrap=1
 # - Update the standard-dlls-xxx files as documented below, and rebuild with bootstrap=0
-%global bootstrap 0
+%bcond_without bootstrap
+%global bootstrap 1
 
 Name:           mingw-crt
 Version:        10.0.0
